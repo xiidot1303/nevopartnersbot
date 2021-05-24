@@ -37,7 +37,7 @@ from docx import Document
 from docx.shared import Inches, Pt
 
 from django.forms import modelformset_factory, formset_factory
-        
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))        
 
 @require_GET
 def robots_txt(request):
@@ -151,21 +151,29 @@ def folder(request):
         if Account.objects.filter(pseudonym=c.pseudonym):
             card_number.append(c.card_number)
     table = []
-    minx = int(Account.objects.values_list('year').order_by('year').first()[0])
-    maxx = int(Account.objects.values_list('year').order_by('year').last()[0])
+    minx = int(Account.objects.values_list('year').order_by('-year').first()[0])
+    maxx = int(Account.objects.values_list('year').order_by('-year').last()[0])
     for i in profiles:
         a = Account.objects.filter(pseudonym=i.pseudonym)
         if a:
             table.append(a)
-    months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-    min_month = Account.objects.filter(year=minx).values_list('month').order_by('month').first()[0]
-    first_year = minx
-    first_months = months[(min_month-1):]
-    first_months_ids = range(min_month, 13)
-    ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    # months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    months = ['Декабрь', 'Ноябрь', 'Октябрь', 'Сентябрь', 'Август', 'Июль', 'Июнь', 'Май', 'Апрель', 'Март', 'Февраль', 'Январь']
+    min_month = Account.objects.filter(year=minx).values_list('month').order_by('-month').first()[0]
 
+    first_year = minx
+    first_months = months[-(min_month):]
+    first_months_ids = list(range(1, min_month+1))
+    first_months_ids.reverse()
+    print(first_months_ids)
+
+    ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    ids = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+    years = list(range(maxx, minx))
+    years.reverse()
     context = {'prefix': prefix, 'card_number': card_number, 'profiles': profiles, 'ps': 'Все', 'allprofiles': profiles, 'path': 'Все', 'table': table, 
-    'ids': ids, 'months': months, 'years': range(minx+1, maxx+1), 'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids}
+    'ids': ids, 'months': months, 'years': years, 'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids}
     return render(request, 'bot/folder.html', context)
 @login_required
 def sortfolder(request, ps):
@@ -679,9 +687,9 @@ class AccEditView(LoginRequiredMixin, UpdateView, PermissionRequiredMixin):
         return con
 @login_required
 def Profiles(request):
-    p = os.listdir('/home/telegrambot/shahabot/files/contract/main')
+    p = os.listdir(os.path.join(BASE_DIR, 'files/contract/main'))
     if len(p) == 2:
-        search_dir = '/home/telegrambot/shahabot/files/contract/main'
+        search_dir = os.path.join(BASE_DIR, 'files/contract/main')
         os.chdir(search_dir)
         files = filter(os.path.isfile, os.listdir(search_dir))
         files = [os.path.join(search_dir, f) for f in files] # add path to each file
@@ -1209,8 +1217,8 @@ def content(request, ps):
 
 @login_required
 def generation_file(request, artist):
-    file_path = '/home/telegrambot/shahabot/files/app/Приложение шаблон.docx'
-    folder_path = '/home/telegrambot/shahabot/files/app/'
+    file_path = os.path.join(BASE_DIR, 'files/app/Приложение шаблон.docx')
+    folder_path = os.path.join(BASE_DIR, 'files/app/')
     
     list_audio = list(Audio.objects.filter(pseudonym=artist).values_list())
     list_video = list(Video.objects.filter(pseudonym=artist).values_list())
@@ -1330,7 +1338,7 @@ def generation_file(request, artist):
 def app_list(request, artist):
     try:
         artist = artist.replace(' ', '_')
-        all_apps = os.listdir('/home/telegrambot/shahabot/files/app/{}'.format(artist))
+        all_apps = os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))
         date_time = []
         for i in all_apps:
             folder, d_t_docx = i.split('__')
@@ -1346,6 +1354,6 @@ def app_list(request, artist):
 def open_app(request, app):
     folder, date = app.split('__')
     folder, date = app.split('__')
-    file_path = '/home/telegrambot/shahabot/files/app/'
+    file_path = os.path.join(BASE_DIR, 'files/app/')
     f = open(file_path+folder+'/'+app, 'rb')
     return FileResponse(f)
