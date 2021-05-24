@@ -1,0 +1,613 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://example.elite-house.uz/users -->
+<html lang="ru" style="height: auto; min-height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f39c12">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/solid.css" integrity="sha384-ioUrHig76ITq4aEJ67dHzTvqjsAP/7IzgwE7lgJcg2r7BRNGYSK0LwSmROzYtgzs" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/fontawesome.css" integrity="sha384-sri+NftO+0hcisDKgr287Y/1LVnInHJ1l+XC7+FOabmTTIK0HnE2ID+xxvJ21c5J" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'hello/form.css' %}">
+    <link rel="stylesheet" href="{% static 'hello/stylefixed.css' %}">
+    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'hello/filter.css' %}">
+    <!-- AdminLTE styles -->
+    <link rel="shortcut icon" href="{% static 'logo/LOGO_FINAL.ico' %}" type="image/ico">
+    <link rel="stylesheet" href="{% static 'hello/AdminLTE.min.css' %}">
+    <!-- AdminLTE skin styles -->
+    <link rel="stylesheet" href="{% static 'hello/skin-yellow.min.css' %}">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'hello/app.css' %}">
+    <!-- Google Font -->
+  <link rel="stylesheet" href="{% static 'hello/css.css' %}">
+    <title> Отчеты</title>
+</head>
+<body class="skin-yellow sidebar-mini" style="height: auto; min-height: 100%;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="" class="logo">
+                <!-- Logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>Nevopartners</b></span>
+                <!-- Logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Nevopartners</b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button -->
+                <a href="" class="sidebar-toggle fas fa-bars" data-toggle="push-menu" role="button"></a>
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar right menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <!-- /.search form -->
+                <!-- Sidebar menu -->
+                <ul class="sidebar-menu accordion" id="accordion">
+                    
+                  <li class="header">НАВИГАЦИЯ</li>
+                  
+                  <li class=""><div class="link"><a> <i class="fa fas fa-stream"></i>Отчеты</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      
+                      <ul class="submenu">
+                        <li><a href="/folder/"><i class="fa fas fa-stream" style="color: seashell;"></i>График отчетов</a></li>
+                        <li><a href="{% url 'allaccount' %}"><i class="fa fa-file" style="color: seashell;"></i>Список отчетов</a></li>  
+                        <li><a href="{% url 'createacc' %}"><i class="fa fa-plus" style="color: seashell;"></i>Добавить отчет</a></li>
+                          
+                      </ul>
+                  
+                  </li>
+                
+                  <li class=""><div class="link"><a> <i class="fa fas fa-users"></i>Партнеры</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      
+                      <ul class="submenu">
+                        <li><a href="/profiles/"><i class="fa fas fa-users" style="color: seashell;"></i>Все партнеры</a></li>
+                          <li><a href="{% url 'createprof' %}"><i class="fa fa-plus" style="color: seashell;"></i>Добавить партнера</a></li>
+                          
+                          
+                      </ul>
+                  
+                  </li>
+                  
+
+                  <li class=""><div class="link"> <a><i class=""></i>Обращения</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                    <ul class="submenu">
+                      <li><a href="{% url 'sendmessage' 'all' 'no' %}"><i class="fa fa-envelope" style="color: seashell;"></i>Отправить сообщения</a></li>
+
+                    </ul>
+                    
+                  </li>
+
+
+                  <li class=""><div class="link"> <a><i class=""></i>Дополнительно</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                    <ul class="submenu">
+                      
+                      <li><a href="{% url 'calendar' %}"><i class="fa fa-calendar" style="color: seashell;"></i>Календарь</a></li>
+                    </ul>
+                    
+                  </li>
+                 
+
+                  <li class=""><div class="link"> <a><i class="fas fa-sliders-h"></i>Настройки</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                    <ul class="submenu">
+                      {% if user.is_superuser %}
+                      <li><a href="{% url 'admins' %}"><i class="fas fa-user-shield" style="color: seashell;"></i>Все сотрудники</a></li>
+                      {% else %}
+                      {% endif %}
+                      <li><a href="{% url 'editpassword' %}"><i class="fas fa-key" style="color: seashell;"></i>Смена пароля</a></li>
+                      {% if user.is_superuser %}
+                      <li><a href="{% url 'addadmin' %}"><i class="fas fa-plus" style="color: seashell;"></i>Добавить сотрудника</a></li>
+                      <li><a href="{% url 'edit_contract' 1 %}" target="_blank"><i class="fas fa-file-signature" style="color: seashell;"></i>Шаблон контракта</a></li>
+                      <li><a href="{% url 'updatehbd' 1 %}"><i class="fas fa-calendar-edit" style="color: seashell;"></i>Настройки календаря</a></li>
+                      {% else %}
+                      {% endif %}
+                    </ul>
+                    
+                  </li>
+                 
+
+                  
+                  
+              </ul>
+                            
+            </section>
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="min-height: 813px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h3>
+          Каталог
+        
+      </h3>
+      <ol class="breadcrumb">
+        
+        
+    <li class="active">
+        <form>
+            <label>Псевдоним</label><input id="search" type="text" value="{{ path }}"><a id = "url" style="background-color: rgb(252, 52, 52); font-size: 15px; color: black;">поиск</a>
+          </form>
+    </li>
+
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+        
+      <div class="status-top" style="background-color: red;">Отклонена</div>
+      <div class="status-top" style="background-color: green;">Оплачена</div>
+      <div class="status-top" style="background-color: blue;">Перенесена</div>
+      <div class="status-top" style="background-color: rgb(15, 223, 238);">В работе</div> 
+      <div class="status-top" style="background-color: rgb(253, 123, 17);">В ожидании</div>
+      <div class="status-top" style="background-color: rgb(82, 80, 80);">Пусто</div>
+            
+        
+        
+    <div class="row add-button">
+        <div class="col-xs-4">
+          {% if perms.hello.add_account %}
+            <a href="{% url 'createacc' %}" class="btn btn-flat bg-orange"><i class="fas fa-plus"></i>Добавить отчет</a>
+               {% else %}
+               {% endif %}
+               <a href="{% url 'allaccount' %}" class="btn btn-flat bg-orange"><i class="fas fa-file-excel-o"></i>Все отчеты</a>
+           </div>
+       </div>
+       <div class="container">
+        <div class="fixedTable col-12" id="demo">
+          <div class="row">
+            <div class="col-sm-6 col-lg-4" style="padding-right: 0">
+              <table class="table-fixed table-bordered">
+                <thead>
+                  <tr>
+                    <td>№</td>
+                    <td>Псевдоним</td>
+                    <td>ID партнера</td>
+                    <td>Номер карты</td>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+      
+            <div class="col-sm-6 col-lg-8" style="padding-left: 0">
+              <header class="fixedTable-header">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+      
+                      {% for m in first_months %}
+                      <th><ul>
+                          <li>{{ first_year }}</li>
+                          <li>{{ m }}</li> 
+                      </ul></th>
+                      {% endfor %}
+                      {% for y in years %}
+                      {% for m in months %}
+                      <th><ul>
+      
+                          <li>{{ y }}</li>
+                          <li>{{ m }}</li>
+                      </ul></th>
+                      {% endfor %}
+                      {% endfor %}  
+                    </tr>
+                  </thead>
+                </table>
+              </header>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-sm-6 col-lg-4" style="padding-right: 0">
+              <aside class="fixedTable-sidebar">
+                <table class="table table-bordered">
+                  <tbody>
+                    {% for t in table %}
+                           <tr>
+                               <td>{{ forloop.counter }} </td>
+                               <td>{{ t.0.pseudonym }}</td>
+                               {% load index %}
+                               <td>{{ prefix|index:forloop.counter0 }}</td>
+                               <td>{{ card_number|index:forloop.counter0 }}</td>
+      
+                           </tr>
+                           {% endfor %}
+                  </tbody>
+                </table>
+      
+              </aside>
+            </div>
+      
+            <div class="col-sm-6 col-lg-8" style="padding-left: 0">
+              <div class="fixedTable-body">
+                <table class="table table-bordered">
+                  <tbody>
+                    {% for t in table %}
+                           <tr>
+                               {% for m in first_months_ids %}
+                                         <td>
+                                         {% for i in t %}
+      
+      
+      
+                                         {% if i.year == first_year %}
+      
+                                           {% if m == i.month.id %}
+      
+      
+      
+                                             {% if i.status.s == 'Оплачен' %}
+                                             <a href="{% url 'edit' i.pk %}">
+                                              <div class="status" style="background-color: chartreuse;">  {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+      
+                                             {% else %} 
+                                             {% if i.status.s == 'Отклонена' %}
+                                             <a href="{% url 'edit' i.pk %}">
+                                               <div class="status" style="background-color: rgb(180, 4, 4);">  </div></a>
+                                               {% else %}
+      
+      
+                                               {% if i.status.s == 'Перенесена' %}
+                                             <a href="{% url 'edit' i.pk %}">
+                                              <div class="status" style="background-color: blue;">{% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+                                               {% else %}
+      
+      
+                                               {% if i.status.s == 'В работе' %}
+                                               <a href="{% url 'edit' i.pk %}">
+                                                <div class="status" style="background-color: rgb(15, 223, 238);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+                                                 {% else %}
+      
+      
+                                               {% if i.status.s == 'В ожидании' %}  
+                                                 <a href="{% url 'edit' i.pk %}">
+                                                  <div class="status" style="background-color: rgb(255, 174, 0);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+                                                 {% else %}
+      
+                                               {% endif %}
+      
+      
+      
+                                                 {% endif %}
+      
+      
+                                               {% endif %}
+      
+      
+                                               {% endif %}
+                                             {% endif %}
+      
+                                           {% else %} 
+      
+                                           {% endif %}
+                                         {% else %}
+      
+                                         {% endif %}
+      
+      
+                                         {% endfor %}
+                                       </td>
+                                         {% endfor %}
+                                     
+                                       <!------------------------------------------------------>
+                                         {% for y in years %}
+                                         {% for m in ids %}
+                                         <td>
+                                         {% for i in t %}
+      
+      
+      
+                                         {% if i.year == y %}
+      
+                                           {% if m == i.month.id %}
+      
+      
+      
+                                             {% if i.status.s == 'Оплачен' %}
+                                             <a href="{% url 'edit' i.pk %}">
+                                             <div class="status" style="background-color: chartreuse;">  {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+      
+                                             {% else %} 
+                                             {% if i.status.s == 'Отклонена' %}
+                                             <a href="{% url 'edit' i.pk %}">
+                                               <div class="status" style="background-color: rgb(189, 0, 0);">  </div></a>
+                                               {% else %}
+      
+      
+                                               {% if i.status.s == 'Перенесена' %}
+                                             <a href="{% url 'edit' i.pk %}">
+                                               <div class="status" style="background-color: blue;">{% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+                                               {% else %}
+      
+      
+                                               {% if i.status.s == 'В работе' %}
+                                               <a href="{% url 'edit' i.pk %}">
+                                                 <div class="status" style="background-color: rgb(15, 223, 238);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+                                                 {% else %}
+      
+      
+                                                 {% if i.status.s == 'В ожидании' %}
+                                                 <a href="{% url 'edit' i.pk %}">
+                                                 <div class="status" style="background-color: rgb(255, 174, 0);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
+                                                 {% else %}
+      
+                                               {% endif %}
+      
+      
+      
+                                                 {% endif %}
+      
+      
+                                               {% endif %}
+      
+      
+                                               {% endif %}
+                                             {% endif %}
+      
+                                           {% else %} 
+      
+                                           {% endif %}
+                                         {% else %}
+      
+                                         {% endif %}
+      
+      
+                                         {% endfor %}
+                                       </td>
+                                         {% endfor %}
+                                         {% endfor %}
+                                     
+      
+                                     </tr>
+                                     {% endfor %}
+                           
+                  </tbody>
+      
+                </table>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+          </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Административная панель
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+  </footer>
+    </div>
+
+
+    <script>
+        
+        function autocomplete(inp, arr) {
+       
+       /*the autocomplete function takes two arguments,
+       the text field element and an array of possible autocompleted values:*/
+       var currentFocus;
+       /*execute a function when someone writes in the text field:*/
+       inp.addEventListener("click", function(e) {
+        
+           
+        var a, b, i, val = this.value;
+           
+           /*close any already open lists of autocompleted values*/
+           closeAllLists();
+           currentFocus = -1;
+           /*create a DIV element that will contain the items (values):*/
+           a = document.createElement("div");
+           a.setAttribute("id", this.id + "autocomplete-list");
+           a.setAttribute("class", "autocomplete-items");
+          
+           document.getElementById("url").href = "/allaccountssort/pseudonym/" + val;
+           /*append the DIV element as a child of the autocomplete container:*/
+           this.parentNode.appendChild(a);
+           if (val == '\0') { 
+            for (i = 0; i < arr.length; i++) {
+              b = document.createElement("DIV");
+              b.setAttribute("class", "list");
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+              b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   
+                  
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+
+            }
+           }
+
+           else {
+           /*for each item in the array...*/
+           for (i = 0; i < arr.length; i++) {
+             /*check if the item starts with the same letters as the text field value:*/
+             if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+               /*create a DIV element for each matching element:*/
+               b = document.createElement("DIV");
+               b.setAttribute("class", "list");
+               /*make the matching letters bold:*/
+               b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+               b.innerHTML += arr[i].substr(val.length);
+               /*insert a input field that will hold the current array item's value:*/
+               b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+               
+               /*execute a function when someone clicks on the item value (DIV element):*/
+                   b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+             }
+           }
+       }
+           
+       }
+       );
+       inp.addEventListener("input", function(e) {
+           var a, b, i, val = this.value;
+           
+           /*close any already open lists of autocompleted values*/
+           closeAllLists();
+           currentFocus = -1;
+           /*create a DIV element that will contain the items (values):*/
+           a = document.createElement("DIV");
+           a.setAttribute("id", this.id + "autocomplete-list");
+           a.setAttribute("class", "autocomplete-items");
+           /*append the DIV element as a child of the autocomplete container:*/
+           this.parentNode.appendChild(a);
+           if (val == '\0') { 
+            for (i = 0; i < arr.length; i++) {
+              b = document.createElement("DIV");
+              b.setAttribute("class", "list");
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+              b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+
+            }
+           }
+
+           else {
+           /*for each item in the array...*/
+           for (i = 0; i < arr.length; i++) {
+             /*check if the item starts with the same letters as the text field value:*/
+             if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+               /*create a DIV element for each matching element:*/
+               b = document.createElement("DIV");
+               b.setAttribute("class", "list");
+               /*make the matching letters bold:*/
+               b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+               b.innerHTML += arr[i].substr(val.length);
+               /*insert a input field that will hold the current array item's value:*/
+               b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+               
+               /*execute a function when someone clicks on the item value (DIV element):*/
+                   b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+             }
+           }
+       }
+       });
+       /*execute a function presses a key on the keyboard:*/
+       inp.addEventListener("keydown", function(e) {
+           var x = document.getElementById(this.id + "autocomplete-list");
+           if (x) x = x.getElementsByTagName("div");
+           if (e.keyCode == 40) {
+             /*If the arrow DOWN key is pressed,
+             increase the currentFocus variable:*/
+             currentFocus++;
+             /*and and make the current item more visible:*/
+             addActive(x);
+           } else if (e.keyCode == 38) { //up
+             /*If the arrow UP key is pressed,
+             decrease the currentFocus variable:*/
+             currentFocus--;
+             /*and and make the current item more visible:*/
+             addActive(x);
+           } else if (e.keyCode == 13) {
+             /*If the ENTER key is pressed, prevent the form from being submitted,*/
+             e.preventDefault();
+             if (currentFocus > -1) {
+               /*and simulate a click on the "active" item:*/
+               if (x) x[currentFocus].click();
+             }
+           }
+       });
+       function addActive(x) {
+         /*a function to classify an item as "active":*/
+         if (!x) return false;
+         /*start by removing the "active" class on all items:*/
+         removeActive(x);
+         if (currentFocus >= x.length) currentFocus = 0;
+         if (currentFocus < 0) currentFocus = (x.length - 1);
+         /*add class "autocomplete-active":*/
+         x[currentFocus].classList.add("autocomplete-active");
+       }
+       function removeActive(x) {
+         /*a function to remove the "active" class from all autocomplete items:*/
+         for (var i = 0; i < x.length; i++) {
+           x[i].classList.remove("autocomplete-active");
+         }
+       }
+       function closeAllLists(elmnt) {
+         /*close all autocomplete lists in the document,
+         except the one passed as an argument:*/
+         var x = document.getElementsByClassName("autocomplete-items");
+         for (var i = 0; i < x.length; i++) {
+           if (elmnt != x[i] && elmnt != inp) {
+           x[i].parentNode.removeChild(x[i]);
+         }
+       }
+     }
+     /*execute a function when someone clicks in the document:*/
+
+     }
+
+
+        var ps = ["Все"];
+        {% for i in allprofiles %}
+        ps[{{ forloop.counter }}] = "{{ i.pseudonym }}";
+        {% endfor %}
+        autocomplete(document.getElementById("search"), ps);
+        function input(obj) {
+        obj.addEventListener("click", function(e) {
+            
+            var pseu = document.getElementById("search").value;
+            document.getElementById("url").href = "/sortfolder/" + pseu;
+     
+        });
+
+    
+            
+    }
+      input(document.getElementById("url"));
+
+
+    </script>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="{% static 'hello/script.js' %}"></script>
+
+    <script src="{% static 'hello/jquery.min.js' %}"></script>
+    <script src="{% static 'hello/adminlte.min.js' %}"></script>
+
+
+</body></html>

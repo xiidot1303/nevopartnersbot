@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://example.elite-house.uz/users -->
+<html lang="ru" style="height: auto; min-height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f39c12">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/solid.css" integrity="sha384-ioUrHig76ITq4aEJ67dHzTvqjsAP/7IzgwE7lgJcg2r7BRNGYSK0LwSmROzYtgzs" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/fontawesome.css" integrity="sha384-sri+NftO+0hcisDKgr287Y/1LVnInHJ1l+XC7+FOabmTTIK0HnE2ID+xxvJ21c5J" crossorigin="anonymous">
+    <link rel="shortcut icon" href="/files/logo/LOGO_FINAL.png" type="image/png">
+    <!-- AdminLTE styles -->
+    <link rel="stylesheet" href="{% static 'hello/AdminLTE.min.css' %}">
+    <!-- AdminLTE skin styles -->
+    <link rel="stylesheet" href="{% static 'hello/skin-yellow.min.css' %}">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'hello/app.css' %}">
+    <!-- Google Font -->
+  <link rel="stylesheet" href="{% static 'hello/css.css' %}">
+    <title> Клиенты</title>
+</head>
+<body class="skin-yellow sidebar-mini" style="height: auto; min-height: 100%;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="" class="logo">
+                <!-- Logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>Nevopartners</b></span>
+                <!-- Logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Nevopartners</b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button -->
+                <a href="" class="sidebar-toggle fas fa-bars" data-toggle="push-menu" role="button"></a>
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar right menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <!-- /.search form -->
+                <!-- Sidebar menu -->
+                <ul class="sidebar-menu accordion" id="accordion">
+                    
+                    <li class="header">НАВИГАЦИЯ</li>
+                    
+                    <li class=""><div class="link"><a> <i class="fa fas fa-stream"></i>Отчеты</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                        
+                        <ul class="submenu">
+                          <li><a href="/folder/"><i class="fa fas fa-stream" style="color: seashell;">График отчетов</i></a></li>
+                          <li><a href="{% url 'allaccount' %}"><i class="fa fa-file" style="color: seashell;">Список отчетов</i></a></li>  
+                          <li><a href="{% url 'createacc' %}"><i class="fa fa-plus" style="color: seashell;">Добавить отчет</i></a></li>
+                            
+                        </ul>
+                    
+                    </li>
+                  
+                    <li class=""><div class="link"><a> <i class="fa fas fa-users"></i>Партнеры</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                        
+                        <ul class="submenu">
+                          <li><a href="/profiles/"><i class="fa fas fa-users" style="color: seashell;">Все партнеры</i></a></li>
+                            <li><a href="{% url 'createprof' %}"><i class="fa fa-plus" style="color: seashell;">Добавить партера</i></a></li>
+                            
+                            
+                        </ul>
+                    
+                    </li>
+                    
+
+                    <li class=""><div class="link"> <a><i class=""></i>Обращения</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        <li><a href="{% url 'sendmessage' 'all' 'no' %}"><i class="fa fa-envelope" style="color: seashell;">Отправить сообщения</i></a></li>
+
+                      </ul>
+                      
+                    </li>
+
+
+                    <li class=""><div class="link"> <a><i class=""></i>Дополнительно</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        
+                        <li><a href="{% url 'calendar' %}"><i class="fa fa-calendar" style="color: seashell;">Календар</i></a></li>
+                      </ul>
+                      
+                    </li>
+                   
+
+                    <li class=""><div class="link"> <a><i class="fas fa-sliders-h"></i>Настройки</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'admins' %}"><i class="fas fa-user-shield" style="color: seashell;">Все сотрудники</i></a></li>
+                        {% else %}
+                        {% endif %}
+                        <li><a href="{% url 'editpassword' %}"><i class="fas fa-key" style="color: seashell;">Смена пароля</i></a></li>
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'addadmin' %}"><i class="fas fa-plus" style="color: seashell;">Добавить сотрудника</i></a></li>
+                        <li><a href="{% url 'edit_contract' 1 %}" target="_blank"><i class="fas fa-file-signature" style="color: seashell;">Шаблон контракта</i></a></li>
+                        <li><a href="{% url 'updatehbd' 1 %}"><i class="fas fa-calendar-edit" style="color: seashell;">Настройки календаря</i></a></li>
+                        {% else %}
+                        {% endif %}
+                      </ul>
+                      
+                    </li>
+                   
+
+                    
+                    
+                </ul>
+                            </section>
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="min-height: 813px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h3>
+        
+        
+      </h3>
+      <ol class="breadcrumb">
+        
+        
+    <li class="active">Клиенты</li>
+
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class = "row">
+            <div class="col-xs-12">
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                <div class="box-body">
+                <form method = "post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="5h98lwrhvgUbQnIGaJkZp5KFNfH9cMCmba4AiL99gAlZMEWi2dsuMRgyVCU9NFyH">
+                    
+                    
+                    <div class="form-group"><div class="col-md-6 col-sm-12">
+                        <label for="id_pseudonym">Псевдоним</label> 
+                        <select class="form-control" name="pseudonym" required id="id_pseudonym">
+                            
+                            {% for i in profiles %}
+                            {% if i.pseudonym == object.pseudonym %}
+                            <option value="{{ i.pseudonym }}" selected>{{ i.pseudonym }}</option>
+                            {% else %}
+                            <option value="{{ i.pseudonym }}">{{ i.pseudonym }}</option>
+                            {% endif %}
+                            {% endfor %}
+
+                        </select>
+                    </div></div>
+                    
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-12">
+                        <label for="id_name">Имя пользователя</label> 
+                        <select class="form-control" name="name" required id="id_name">
+                            
+                            {% for i in profiles %}
+                            {% if i.name == object.name %}
+                            <option value="{{ i.name }}" selected>{{ i.name }}</option>
+                            {% else %}
+                            <option value="{{ i.name }}">{{ i.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div></div>
+
+                    <div class="form-group ">
+                        <div class="col-md-6 col-sm-12">
+                        <label for="id_status">Статус</label> 
+                        <select class="form-control" name="status" required id="id_status">
+                        
+                        {% if 1 == object.status %}
+                        <option value="1" selected>Оплечен</option>
+                        {% else %}
+                        <option value="1">Оплечен</option>
+                        {% endif %}
+
+                        {% if 2 == object.status %}
+                        <option value="2" selected>В ожидании</option>
+                        {% else %}
+                        <option value="2">В ожидании</option>
+                        {% endif %}
+                        <select></div></div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-12">
+                            
+                        <label for="id_month">Месяц</label> <select class="form-control" name="month" required id="id_month">
+                            
+                            {% for m in months %}
+                            {% if m == object.month.month %}
+                            <option value="{{ forloop.counter }}" selected>{{ m }}</option>
+                            {% else %}
+                            <option value="{{ forloop.counter }}">{{ m }}</option>
+                            {% endif %}
+                            {% endfor %}
+                           
+                            
+                        
+                     
+                    </select>
+                </div></div>
+                
+                    
+
+
+                    
+                    <div class="col-md-6 col-sm-12"><div class="form-group"><label for="id_year">Год</label> <input class="form-control" type="number" name="year" required id="id_year" value="{{ object.year }}"></div></div>
+                    <div class="col-md-6 col-sm-12"><div class="form-group"><label for="id_day_payment">Дата оплата</label> <input class="form-control" type="text" name="day_payment" required id="id_day_payment" value="{{ object.day_payment }}"></div></div>
+                    <div class="form-group">
+                        <label for="id_document">PDF файл</label><br> Currently: <a href="/files/{{ object.document }}">{{ object.document }}</a>
+                        <input type="file" name="document" id="id_document">
+                    </div>
+                    
+                    <input class="bg-orange" type="submit" value="Изменить">
+                </form>
+            </div>
+            </div>
+        </div>
+        
+        
+ 
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Административная панель
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+  </footer>
+    </div>
+
+
+    <script src="{% static 'hello/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'hello/bootstrap.min.js' %}"></script>
+    <script src="{% static 'hello/adminlte.min.js' %}"></script>
+    
+    <script src="{% static 'hello/users.js' %}"></script>
+
+
+</body></html>

@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://example.elite-house.uz/users -->
+<html lang="ru" style="height: auto; min-height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f39c12">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/solid.css" integrity="sha384-ioUrHig76ITq4aEJ67dHzTvqjsAP/7IzgwE7lgJcg2r7BRNGYSK0LwSmROzYtgzs" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/fontawesome.css" integrity="sha384-sri+NftO+0hcisDKgr287Y/1LVnInHJ1l+XC7+FOabmTTIK0HnE2ID+xxvJ21c5J" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'hello/form.css' %}">
+    <link rel="stylesheet" href="{% static 'hello/audio.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'hello/autocomplete.css' %}">
+    <!-- AdminLTE styles -->
+    <link rel="shortcut icon" href="{% static 'logo/LOGO_FINAL.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'hello/AdminLTE.min.css' %}">
+    <!-- AdminLTE skin styles -->
+    <link rel="stylesheet" href="{% static 'hello/skin-yellow.min.css' %}">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'hello/app.css' %}">
+    <!-- Google Font -->
+  <link rel="stylesheet" href="{% static 'hello/css.css' %}">
+    <title> </title>
+</head>
+<body class="skin-yellow sidebar-mini" style="height: auto; min-height: 100%;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="" class="logo">
+                <!-- Logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>Nevopartners</b></span>
+                <!-- Logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Nevopartners</b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button -->
+                <a href="" class="sidebar-toggle fas fa-bars" data-toggle="push-menu" role="button"></a>
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar right menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <!-- /.search form -->
+                <!-- Sidebar menu -->
+                <ul class="sidebar-menu accordion" id="accordion">
+                    
+                    <li class="header">НАВИГАЦИЯ</li>
+                    
+                    <li class=""><div class="link"><a> <i class="fa fas fa-stream"></i>Отчеты</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                        
+                        <ul class="submenu">
+                          <li><a href="/folder/"><i class="fa fas fa-stream" style="color: seashell;"></i>График отчетов</a></li>
+                          <li><a href="{% url 'allaccount' %}"><i class="fa fa-file" style="color: seashell;"></i>Список отчетов</a></li>  
+                          <li><a href="{% url 'createacc' %}"><i class="fa fa-plus" style="color: seashell;"></i>Добавить отчет</a></li>
+                            
+                        </ul>
+                    
+                    </li>
+                  
+                    <li class=""><div class="link"><a> <i class="fa fas fa-users"></i>Партнеры</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                        
+                        <ul class="submenu">
+                          <li><a href="/profiles/"><i class="fa fas fa-users" style="color: seashell;"></i>Все партнеры</a></li>
+                            <li><a href="{% url 'createprof' %}"><i class="fa fa-plus" style="color: seashell;"></i>Добавить партнера</a></li>
+                            
+                            
+                        </ul>
+                    
+                    </li>
+                    
+  
+                    <li class=""><div class="link"> <a><i class=""></i>Обращения</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        <li><a href="{% url 'sendmessage' 'all' 'no' %}"><i class="fa fa-envelope" style="color: seashell;"></i>Отправить сообщения</a></li>
+  
+                      </ul>
+                      
+                    </li>
+  
+  
+                    <li class=""><div class="link"> <a><i class=""></i>Дополнительно</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        
+                        <li><a href="{% url 'calendar' %}"><i class="fa fa-calendar" style="color: seashell;"></i>Календарь</a></li>
+                      </ul>
+                      
+                    </li>
+                   
+  
+                    <li class=""><div class="link"> <a><i class="fas fa-sliders-h"></i>Настройки</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'admins' %}"><i class="fas fa-user-shield" style="color: seashell;"></i>Все сотрудники</a></li>
+                        {% else %}
+                        {% endif %}
+                        <li><a href="{% url 'editpassword' %}"><i class="fas fa-key" style="color: seashell;"></i>Смена пароля</a></li>
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'addadmin' %}"><i class="fas fa-plus" style="color: seashell;"></i>Добавить сотрудника</a></li>
+                        <li><a href="{% url 'edit_contract' 1 %}" target="_blank"><i class="fas fa-file-signature" style="color: seashell;"></i>Шаблон контракта</a></li>
+                        <li><a href="{% url 'updatehbd' 1 %}"><i class="fas fa-calendar-edit" style="color: seashell;"></i>Настройки календаря</a></li>
+                        {% else %}
+                        {% endif %}
+                      </ul>
+                      
+                    </li>
+                   
+  
+                    
+                    
+                </ul>
+                  
+                        </section>
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="min-height: 813px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h3>
+
+        
+      </h3>
+      <ol class="breadcrumb">
+        
+        
+    <li class="active">
+
+
+        
+    </li>
+    
+
+      </ol>
+    </section>
+    <!-- Main content -->
+
+    
+    <section class="content container-fluid">
+        
+
+    
+        
+            
+        
+
+
+
+    
+    <div class="row add-button">
+        <div class="col-xs-10">
+            <a href="{% url 'create_audio' ps 1 %}" class="btn btn-flat bg-orange"><i class="fas fa-plus"></i>Добавить аудио</a>
+            <a href="{% url 'create_video' ps 1 %}" class="btn btn-flat bg-orange"><i class="fas fa-plus"></i>Добавить видео</a>
+            <a href="{% url 'add_app_file' ps %}" class="btn btn-flat bg-orange"><i class="fas fa-plus"></i>Генерация приложение</a>
+            <a href="{% url 'app_list' ps %}" class="btn btn-flat bg-orange"><i class=""></i>Список приложений</a>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="userTable">
+                        
+                        <caption style="text-align:center; font-size:20px">
+                            <h5>Аудиопроизведение</h5>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Произведение</th>
+                                
+                                <th>Артист</th>
+                                <th>Автор музыки</th>
+                                <th>Автор текста</th>
+                                <th>Альбом</th>
+                                <th>ISRC (код)</th>
+                                <th>Жанр</th>
+                                <th>Авторские права</th>
+                                <th>Смежные права</th>
+                                <th>UPC</th>
+                                <th>Дата релиза</th>
+                                <th>Территория</th>
+                                <th>Действия</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in audios %}
+                            {% load index %}
+                            {% if a.status == '-' %}
+                            <tr style="background-color: rgb(169, 169, 169);">
+                            {% else %}
+                            <tr>
+                            {% endif %}
+                                <td>{{ forloop.counter }} <asd style="background-color: rgb(88, 206, 233); padding-left: 6px; padding-right: 6px; margin-left: 7px; border-radius: 7px 7px 7px 7px;">{{ a.pk }}</asd></td>
+                                <td>{{ a.composition }}</td>
+                                <td>{{ a.artist }}</td>
+                                <td>{{ a.autor_music }}</td>
+                                <td>{{ a.autor_text }}</td>
+                                <td>{{ a.album }}</td>
+                                <td>{{ a.isrc }}</td>
+                                <td>{{ a.genre }}</td>
+                                <td>{{ a.copyright }}</td>
+                                <td>{{ a.related_rights }}</td>
+                                <td>{{ a.upc }}</td>
+                                <td>{{ a.release_date }}</td>
+                                <td>{{ a.territory }}</td>
+                                
+                                <td>
+                                    
+                                    <audio id="nyan{{ a.pk }}" src="{{ a.link }}" preload="metadata" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                     </audio>
+
+                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "nyan-btn{{ a.pk }}" class="nyan-btn btn btn-danger btn-flat"><i class="fas fa-play" aria-hidden="true"></i></a>
+                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'edit_audio' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-edit" aria-hidden="true"></i></a>
+                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'delaudio' a.pk %}" onclick="return confirm(&#39;Вы уверены?&#39;)" class="btn btn-danger btn-flat">
+                                        {% if a.status == '-' %}
+                                        <i class="fas fa-sync-alt">
+                                        {% else %}
+                                        <i class="fas fa-trash" aria-hidden="true">
+                                        {% endif %}
+                                        </i></a>
+                                    
+                                </td>
+                            </tr>
+                        {% endfor %}
+                          
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- video -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                
+                <div class="box-tools">
+                    <div class="input-group input-group-sm" style="width: 150px">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover" id="userTable">
+                    
+                    <caption style="text-align:center; font-size:20px">
+                        <h5>Аудиовизуальные произведения</h5>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Произведение</th>
+                            <th>Тип</th>
+                            <th>Артист</th>
+                            <th>ISRC (код)</th>
+                            <th>Режиссер-постановщик</th>
+                            <th>Оператор-постановщик</th>
+                            <th>Автор сценария</th>
+                            <th>Художник-постановщик</th>
+                            <th>Авторские права</th>
+                            <th>Дата релиза</th>
+                            <th>Территория</th>
+                            <th>Действия</th>
+                            
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in videos %}
+                        
+                        {% if a.status == '-' %}
+                        <tr style="background-color: rgb(169, 169, 169);">
+                        {% else %}
+                        <tr>
+                        {% endif %}
+                            <td>{{ forloop.counter }} <asd style="background-color: rgb(88, 206, 233); padding-left: 6px; padding-right: 6px; margin-left: 7px; border-radius: 7px 7px 7px 7px;">{{ a.pk }}</asd></td>
+                            <td>{{ a.composition }}</td>
+                            <td>{{ a.type }}</td>
+                            <td>{{ a.artist }}</td>
+                            <td>{{ a.isrc }}</td>
+                            <td>{{ a.producer }}</td>
+                            <td>{{ a.operator }}</td>
+                            <td>{{ a.autor_script }}</td>
+                            <td>{{ a.painter }}</td>
+                            <td>{{ a.copyright }}</td>
+                            <td>{{ a.release_date }}</td>
+                            <td>{{ a.territory }}</td>
+                            
+                            <td>
+                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{{ a.link }}" target="_blank" class="btn btn-danger btn-flat"><i class="fas fa-play" aria-hidden="true"></i></a>
+                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'edit_video' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-edit" aria-hidden="true"></i></a>
+                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'delvideo' a.pk %}" onclick="return confirm(&#39;Вы уверены?&#39;)" class="btn btn-danger btn-flat">
+                                    {% if a.status == '-' %}
+                                    <i class="fas fa-sync-alt">
+                                    {% else %}
+                                    <i class="fas fa-trash" aria-hidden="true">
+                                    {% endif %}
+                                    </i></a>
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}
+                      
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Административная панель
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+  </footer>
+    </div>
+
+    <script>
+
+{% for a in audios %}
+function playPause{{ a.pk }}(song){
+   if (song.paused && song.currentTime >= 0 && !song.ended) {
+      song.play();
+   } else {
+      song.pause();
+   }
+}
+
+function reset{{ a.pk }}(btn, song){
+   if(btn.classList.contains('playing')){
+      btn.classList.toggle('playing');
+   }
+   song.pause();
+   song.currentTime = 0;
+}
+
+function progress{{ a.pk }}(btn, song){
+   setTimeout(function(){
+      var end = song.duration; 
+      var current = song.currentTime;
+      var percent = current/(end/100);
+      //check if song is at the end
+      if(current==end){
+         reset{{ a.pk }}(btn, song);
+      }
+      //set inset box shadow
+      btn.style.boxShadow = "inset " + btn.offsetWidth * (percent/100) + "px 0px 0px 0px rgba(0,0,0,0.125)"
+      //call function again
+      progress{{ a.pk }}(btn, song);     
+   }, 1000);
+}
+
+var nyan{{ a.pk }} = document.getElementById('nyan{{ a.pk }}');
+var nyanBtn{{ a.pk }} = document.getElementById('nyan-btn{{ a.pk }}');
+
+nyanBtn{{ a.pk }}.addEventListener('click', function(){
+   nyanBtn{{ a.pk }}.classList.toggle('playing');
+   playPause{{ a.pk }}(nyan{{ a.pk }});
+   progress{{ a.pk }}(nyanBtn{{ a.pk }}, nyan{{ a.pk }});
+});
+
+{% endfor %}
+
+    </script>
+
+<script src="{% static 'hello/jquery.min.js' %}"></script>
+<script src="{% static 'hello/adminlte.min.js' %}"></script>
+
+
+
+
+</body></html>

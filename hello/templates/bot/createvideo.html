@@ -1,0 +1,403 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://example.elite-house.uz/users -->
+<html lang="ru" style="height: auto; min-height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f39c12">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/solid.css" integrity="sha384-ioUrHig76ITq4aEJ67dHzTvqjsAP/7IzgwE7lgJcg2r7BRNGYSK0LwSmROzYtgzs" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/fontawesome.css" integrity="sha384-sri+NftO+0hcisDKgr287Y/1LVnInHJ1l+XC7+FOabmTTIK0HnE2ID+xxvJ21c5J" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'hello/form.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'hello/adminbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'hello/autocomplete.css' %}">
+    <!-- AdminLTE styles -->
+    <link rel="stylesheet" href="{% static 'hello/AdminLTE.min.css' %}">
+    <!-- AdminLTE skin styles -->
+    <link rel="stylesheet" href="{% static 'hello/skin-yellow.min.css' %}">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'hello/app.css' %}">
+    <!-- Google Font -->
+  <link rel="stylesheet" href="{% static 'hello/css.css' %}">
+    <title> </title>
+</head>
+<body class="skin-yellow sidebar-mini" style="height: auto; min-height: 100%;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="" class="logo">
+                <!-- Logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>Nevopartners</b></span>
+                <!-- Logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Nevopartners</b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button -->
+                <a href="" class="sidebar-toggle fas fa-bars" data-toggle="push-menu" role="button"></a>
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar right menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <!-- /.search form -->
+                <!-- Sidebar menu -->
+                <ul class="sidebar-menu accordion" id="accordion">
+                    
+                    <li class="header">НАВИГАЦИЯ</li>
+                    
+                    <li class=""><div class="link"><a> <i class="fa fas fa-stream"></i>Отчеты</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                        
+                        <ul class="submenu">
+                          <li><a href="/folder/"><i class="fa fas fa-stream" style="color: seashell;"></i>График отчетов</a></li>
+                          <li><a href="{% url 'allaccount' %}"><i class="fa fa-file" style="color: seashell;"></i>Список отчетов</a></li>  
+                          <li><a href="{% url 'createacc' %}"><i class="fa fa-plus" style="color: seashell;"></i>Добавить отчет</a></li>
+                            
+                        </ul>
+                    
+                    </li>
+                  
+                    <li class=""><div class="link"><a> <i class="fa fas fa-users"></i>Партнеры</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                        
+                        <ul class="submenu">
+                          <li><a href="/profiles/"><i class="fa fas fa-users" style="color: seashell;"></i>Все партнеры</a></li>
+                            <li><a href="{% url 'createprof' %}"><i class="fa fa-plus" style="color: seashell;"></i>Добавить партнера</a></li>
+                            
+                            
+                        </ul>
+                    
+                    </li>
+                    
+  
+                    <li class=""><div class="link"> <a><i class=""></i>Обращения</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        <li><a href="{% url 'sendmessage' 'all' 'no' %}"><i class="fa fa-envelope" style="color: seashell;"></i>Отправить сообщения</a></li>
+  
+                      </ul>
+                      
+                    </li>
+  
+  
+                    <li class=""><div class="link"> <a><i class=""></i>Дополнительно</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        
+                        <li><a href="{% url 'calendar' %}"><i class="fa fa-calendar" style="color: seashell;"></i>Календарь</a></li>
+                      </ul>
+                      
+                    </li>
+                   
+  
+                    <li class=""><div class="link"> <a><i class="fas fa-sliders-h"></i>Настройки</a><i class="fa fa-chevron-down" style="color: white;"></i></div>
+                      <ul class="submenu">
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'admins' %}"><i class="fas fa-user-shield" style="color: seashell;"></i>Все сотрудники</a></li>
+                        {% else %}
+                        {% endif %}
+                        <li><a href="{% url 'editpassword' %}"><i class="fas fa-key" style="color: seashell;"></i>Смена пароля</a></li>
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'addadmin' %}"><i class="fas fa-plus" style="color: seashell;"></i>Добавить сотрудника</a></li>
+                        <li><a href="{% url 'edit_contract' 1 %}" target="_blank"><i class="fas fa-file-signature" style="color: seashell;"></i>Шаблон контракта</a></li>
+                        <li><a href="{% url 'updatehbd' 1 %}"><i class="fas fa-calendar-edit" style="color: seashell;"></i>Настройки календаря</a></li>
+                        {% else %}
+                        {% endif %}
+                      </ul>
+                      
+                    </li>
+                   
+  
+                    
+                    
+                </ul>
+              </section>
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="min-height: 813px;">
+    <!-- Content Header (Page header) -->
+    <form method = "post" enctype="multipart/form-data">
+      <section class="content-header">
+        <h3>
+      
+          
+        </h3>
+        <ol class="breadcrumb">
+          
+          
+      <li class="active">    
+        <div class="row add-button" align='center'>
+          <div class="col-xs-10">
+            <button class="btn btn-flat bg-orange"><i class="fas fa-save"></i>Сохранить</button>
+          </div>
+          </div>
+        </ol>
+        <br>
+        <br>
+    
+      </section>
+      <!-- Main content -->
+      <section class="content container-fluid">
+  
+   
+  
+          
+   
+                  {% csrf_token %}
+                  {{ form.management_form }}
+                  <table>
+                    <th>№</th>
+                    <th style="font-size: 12px;">Произведение</th>
+                    <th style="font-size: 12px;">Тип</th>
+                    <th style="font-size: 12px;">Артист</th>
+                    <th style="font-size: 12px;">ISRC (код)</th>
+                    <th style="font-size: 12px;">Режиссер-постановщик</th>
+                    <th style="font-size: 12px;">Оператор-постановщик</th>
+                    <th style="font-size: 12px;">Автор сценария</th>
+                    <th style="font-size: 12px;">Художник-постановщик</th>
+                    <th style="font-size: 12px;">Авторские права</th>
+                    <th style="font-size: 12px;">Дата релиза (гггг-мм-дд)</th>
+                    <th style="font-size: 12px;">Территория</th>
+                    <th style="font-size: 12px;">Ссылка на файл</th>
+                    
+                  {% for field in form %}
+                  
+                  <tr>
+                      {% if forloop.counter == count %}
+                      <td>Новый</td>
+                      {% else %}
+                       <td>{{ forloop.counter }}</td>
+                       {% endif %}
+                       {% for f in field %}
+                       <td class="td2">{{ f }}</td>
+                       {% endfor %}
+  
+                      </tr>
+              {% endfor %}
+            
+                    </table>
+       
+  
+          
+  
+                    <a href="{% url 'create_audio' artist add %}" style="color: rgb(63, 60, 60);">+ Добавить еще</a>
+  
+   
+      </section>
+    </form>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Административная панель
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+  </footer>
+    </div>
+    <script>
+        
+        function autocomplete(inp, arr) {
+       
+       /*the autocomplete function takes two arguments,
+       the text field element and an array of possible autocompleted values:*/
+       var currentFocus;
+       /*execute a function when someone writes in the text field:*/
+       inp.addEventListener("click", function(e) {
+        
+           
+        var a, b, i, val = this.value;
+           
+           /*close any already open lists of autocompleted values*/
+           closeAllLists();
+           currentFocus = -1;
+           /*create a DIV element that will contain the items (values):*/
+           a = document.createElement("DIV");
+           a.setAttribute("id", this.id + "autocomplete-list");
+           a.setAttribute("class", "autocomplete-items");
+           /*append the DIV element as a child of the autocomplete container:*/
+           this.parentNode.appendChild(a);
+           if (val == '\0') { 
+            for (i = 0; i < arr.length; i++) {
+              b = document.createElement("DIV");
+              b.setAttribute("class", "list");
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+              b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+
+            }
+           }
+
+           else {
+           /*for each item in the array...*/
+           for (i = 0; i < arr.length; i++) {
+             /*check if the item starts with the same letters as the text field value:*/
+             if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+               /*create a DIV element for each matching element:*/
+               b = document.createElement("DIV");
+               b.setAttribute("class", "list");
+               /*make the matching letters bold:*/
+               b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+               b.innerHTML += arr[i].substr(val.length);
+               /*insert a input field that will hold the current array item's value:*/
+               b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+               
+               /*execute a function when someone clicks on the item value (DIV element):*/
+                   b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+             }
+           }
+       }
+           
+       }
+       );
+       inp.addEventListener("input", function(e) {
+           var a, b, i, val = this.value;
+           
+           /*close any already open lists of autocompleted values*/
+           closeAllLists();
+           currentFocus = -1;
+           /*create a DIV element that will contain the items (values):*/
+           a = document.createElement("DIV");
+           a.setAttribute("id", this.id + "autocomplete-list");
+           a.setAttribute("class", "autocomplete-items");
+           /*append the DIV element as a child of the autocomplete container:*/
+           this.parentNode.appendChild(a);
+           if (val == '\0') { 
+            for (i = 0; i < arr.length; i++) {
+              b = document.createElement("DIV");
+              b.setAttribute("class", "list");
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+              b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+
+            }
+           }
+
+           else {
+           /*for each item in the array...*/
+           for (i = 0; i < arr.length; i++) {
+             /*check if the item starts with the same letters as the text field value:*/
+             if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+               /*create a DIV element for each matching element:*/
+               b = document.createElement("DIV");
+               b.setAttribute("class", "list");
+               /*make the matching letters bold:*/
+               b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+               b.innerHTML += arr[i].substr(val.length);
+               /*insert a input field that will hold the current array item's value:*/
+               b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+               
+               /*execute a function when someone clicks on the item value (DIV element):*/
+                   b.addEventListener("click", function(e) {
+                   /*insert the value for the autocomplete text field:*/
+                   inp.value = this.getElementsByTagName("input")[0].value;
+                   /*close the list of autocompleted values,
+                   (or any other open lists of autocompleted values:*/
+                   closeAllLists();
+               });
+               a.appendChild(b);
+             }
+           }
+       }
+       });
+       /*execute a function presses a key on the keyboard:*/
+       inp.addEventListener("keydown", function(e) {
+           var x = document.getElementById(this.id + "autocomplete-list");
+           if (x) x = x.getElementsByTagName("div");
+           if (e.keyCode == 40) {
+             /*If the arrow DOWN key is pressed,
+             increase the currentFocus variable:*/
+             currentFocus++;
+             /*and and make the current item more visible:*/
+             addActive(x);
+           } else if (e.keyCode == 38) { //up
+             /*If the arrow UP key is pressed,
+             decrease the currentFocus variable:*/
+             currentFocus--;
+             /*and and make the current item more visible:*/
+             addActive(x);
+           } else if (e.keyCode == 13) {
+             /*If the ENTER key is pressed, prevent the form from being submitted,*/
+             e.preventDefault();
+             if (currentFocus > -1) {
+               /*and simulate a click on the "active" item:*/
+               if (x) x[currentFocus].click();
+             }
+           }
+       });
+       function addActive(x) {
+         /*a function to classify an item as "active":*/
+         if (!x) return false;
+         /*start by removing the "active" class on all items:*/
+         removeActive(x);
+         if (currentFocus >= x.length) currentFocus = 0;
+         if (currentFocus < 0) currentFocus = (x.length - 1);
+         /*add class "autocomplete-active":*/
+         x[currentFocus].classList.add("autocomplete-active");
+       }
+       function removeActive(x) {
+         /*a function to remove the "active" class from all autocomplete items:*/
+         for (var i = 0; i < x.length; i++) {
+           x[i].classList.remove("autocomplete-active");
+         }
+       }
+       function closeAllLists(elmnt) {
+         /*close all autocomplete lists in the document,
+         except the one passed as an argument:*/
+         var x = document.getElementsByClassName("autocomplete-items");
+         for (var i = 0; i < x.length; i++) {
+           if (elmnt != x[i] && elmnt != inp) {
+           x[i].parentNode.removeChild(x[i]);
+         }
+       }
+     }
+     /*execute a function when someone clicks in the document:*/
+
+     }
+     
+        var ps = [""];
+        {% for i in profiles %}
+        ps[{{ forloop.counter }}] = "{{ i }}";
+        {% endfor %}
+        var objs = document.getElementsByClassName("artist///");
+        autocomplete(objs[objs.length-1], ps);
+
+    </script>
+
+<script src="{% static 'hello/jquery.min.js' %}"></script>
+<script src="{% static 'hello/adminlte.min.js' %}"></script>
+
+
+
+</body></html>
