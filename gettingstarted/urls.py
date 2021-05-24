@@ -1,4 +1,6 @@
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeDoneView, PasswordChangeView
@@ -66,6 +68,6 @@ urlpatterns = [
     path('add_app_file/<str:artist>', generation_file, name='add_app_file'),
     path('app_list/<str:artist>', app_list, name='app_list'),
     path('open_app_file/<str:app>', open_app, name='open_app'),
-]   
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
