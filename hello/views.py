@@ -296,7 +296,10 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
         if card.objects.filter(pseudonym=obj.pseudonym):   #checking that is creating or editing
 
             context['h1'] = 'Данные были успешно изменены'
-            card.objects.get_or_create(card_number=obj.card_number, pseudonym=obj.pseudonym, type_payment=obj.type_payment, valute_card=obj.valute_card, owner_card=obj.owner_card)  
+            try:
+                card.objects.get_or_create(card_number=obj.card_number, pseudonym=obj.pseudonym, type_payment=obj.type_payment, valute_card=obj.valute_card, owner_card=obj.owner_card)  
+            except:
+                sasa = 0
             if not subscribersbot.objects.filter(login=obj.login):
                 for i in subscribersbot.objects.all():
                     if not Profile.objects.filter(login=i.login):
@@ -880,8 +883,8 @@ def calendar(request):
 @login_required
 def Contract(request, ps):
     obj = Profile.objects.get(pseudonym=ps)
-    p = os.listdir('/home/telegrambot/shahabot/files/contract/main')
-    document = Document('/home/telegrambot/shahabot/files/contract/main/'+p[0])
+    p = os.listdir(os.path.join(BASE_DIR, 'files/contract/main'))
+    document = Document(os.path.join(BASE_DIR, 'files/contract/main/'+p[0]))
     for table in document.tables:
         for r in table.rows:
             for c in r.cells:
