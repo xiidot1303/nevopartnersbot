@@ -311,7 +311,7 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
                 for i in subscribersbot.objects.all():
                     if not Profile.objects.filter(login=i.login):
                         if i.parol:
-                            token = "1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I"
+                            token = TOKEN
                             user_id = i.user_id
                             bot = telegram.Bot(token=token)
 
@@ -333,7 +333,7 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
                             i.delete()
             else:
                 if obj.parol != subscribersbot.objects.get(login=obj.login).parol and subscribersbot.objects.get(login=obj.login).parol:
-                    token = "1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I"
+                    token = TOKEN
                     i = subscribersbot.objects.get(login=obj.login)
                     user_id = i.user_id
                     bot = telegram.Bot(token=token)
@@ -478,7 +478,7 @@ class AccDetailView(LoginRequiredMixin, DetailView):
                         doc_send = False
                 except:
                     fewrfwef = 0
-                token = "1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I"
+                token = TOKEN
 
                 bot = telegram.Bot(token=token)
                 i_accounts = InlineKeyboardButton(text='Отчеты', callback_data='accounts')
@@ -535,7 +535,7 @@ class AccUpdateView(LoginRequiredMixin, DetailView):
                 user_id = subscribersbot.objects.get(login = l).user_id
 
 
-                token = "1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I"
+                token = TOKEN
                 bot = telegram.Bot(token=token)
                 i_accounts = InlineKeyboardButton(text='Отчеты', callback_data='accounts')
                 i_setting = InlineKeyboardButton(text='Настройки', callback_data='setting')
@@ -674,7 +674,7 @@ def afterdeleting(request, ps, login):
         ch.delete()
         t = typing.objects.get(user_id=user_id)
         t.delete()
-        requests.get('https://api.telegram.org/bot1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I/sendMessage?chat_id={}&text=ваш профиль удален\nнажмите /start, чтобы войти снова'.format(user_id))
+        requests.get('https://api.telegram.org/bot{}/sendMessage?chat_id={}&text=ваш профиль удален\nнажмите /start, чтобы войти снова'.format(TOKEN, user_id))
     except:
         fwrfwe = 0
     return redirect(Profiles)
