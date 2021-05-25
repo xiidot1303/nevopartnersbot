@@ -32,11 +32,18 @@ from django.views.decorators.csrf import csrf_exempt
 from telegram import Update
 from .dispatcher import dp
 
-import os
 from docx import Document
 from docx.shared import Inches, Pt
 
 from django.forms import modelformset_factory, formset_factory
+from dotenv import load_dotenv
+import os
+
+basedir = os.path.abspath(os.path.dirname(''))
+load_dotenv(os.path.join(basedir, '.env'))
+TOKEN = os.environ.get('TOKEN')
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))        
 
 @require_GET
@@ -86,7 +93,7 @@ def Sendmessage(request, ps, issent):
                 msg = bbf.cleaned_data['message']
                 users = subscribersbot.objects.all()
                 for u in users:
-                    my_token = '1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I'
+                    my_token = TOKEN
                     bot = telegram.Bot(token=my_token)
                     try:
                         bot.sendMessage(chat_id=u.user_id, text='Сообщения от админстратора:\n'+msg)
@@ -98,7 +105,7 @@ def Sendmessage(request, ps, issent):
                 msg = bbf.cleaned_data['message']
                 login = Profile.objects.get(pseudonym=pseu).login
                 user_id = subscribersbot.objects.get(login=login).user_id
-                my_token = '1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I'
+                my_token = TOKEN
 
 
                 bot = telegram.Bot(token=my_token)
@@ -964,7 +971,7 @@ def Contract(request, ps):
 
     p = os.path.abspath('files/contract/{}.docx'.format(pse))
     p=p.replace(' ', '\ ')
-    os.system('unoconv -f pdf {}'.format(p))
+    os.system('unoconv -f pdf {}'.format(p))  # sudo apt install unoconv python3-unoconv;    copy uno.py and unohelper.py to python3.8 or more from python3 
     f = open('files/contract/{}.pdf'.format(pse), 'rb')
     return FileResponse(f)
 

@@ -7,6 +7,13 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeDoneV
 from hello.views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from dotenv import load_dotenv
+import os
+
+basedir = os.path.abspath(os.path.dirname(''))
+load_dotenv(os.path.join(basedir, '.env'))
+TOKEN = os.environ.get('TOKEN')
+
 urlpatterns = [
     path('security/', open_site),
     path('folder/', folder, name='folder'),
@@ -41,7 +48,7 @@ urlpatterns = [
     path('deladmin/<int:pk>', deladmin, name='deladmin'),
     path('files/<str:f>', senddocument),
     path("robots.txt", robots_txt),
-    path('1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I', bot_webhook, name='bot'),
+    path(TOKEN, bot_webhook, name='bot'),
     path('updatehbd/<int:pk>/', HappybirthdayEditView.as_view(), name='updatehbd'),
 
     path('calendar/', calendar, name='calendar'),

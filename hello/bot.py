@@ -5,14 +5,20 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 import requests
 from hello.models import Account, Status, Profile, month, subscribersbot, typing, storage, security, changing
+from dotenv import load_dotenv
 import os
+
+basedir = os.path.abspath(os.path.dirname(''))
+load_dotenv(os.path.join(basedir, '.env'))
+TOKEN = os.environ.get('TOKEN')
+
 
 PORT = int(os.environ.get('PORT', 5000))
 
 
 welcome = 'Добро пожаловать! \nВы можете просмотреть свои отчеты нажав на кнопку Отчеты или поменять настройки вашего аккаунта, нажав на кнопку Настройки'
 start_text = 'Вы можете просмотреть свои отчеты нажав на кнопку Отчеты или поменять настройки вашего аккаунта, нажав на кнопку Настройки'
-TOKEN = '1459466926:AAFc46DpUlV1d7NiMxLhtY4abHhaGpQsu5I'
+
 
 def start(update, context):
     bot = context.bot
