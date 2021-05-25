@@ -339,7 +339,10 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
                     bot = telegram.Bot(token=token)
                     
                     message = 'Ваши данные для входа сменены. Для получение новых данных обратитесь Вашему менеджеру по работе с партнерами или по почты support@nevo.uz\n\nнажмите /start, чтобы перезапустить бота'
-                    bot.sendMessage(chat_id=user_id, text=message)
+                    try:
+                        bot.sendMessage(chat_id=user_id, text=message)
+                    except:
+                        asasa = 0 # do nothing
                     changing.objects.get(user_id=i.user_id).delete()
                     typing.objects.get(user_id=i.user_id).delete()
                     
