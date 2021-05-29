@@ -392,7 +392,7 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
                 for i in card.objects.filter(pseudonym=pre.pseudonym):
                     i.pseudonym = obj.pseudonym
                     i.save()
-
+                os.system('mv {} {}'.format(os.path.join(BASE_DIR, 'files/app/{}'.format(pre.pseudonym)), os.path.join(BASE_DIR, 'files/app/{}'.format(obj.pseudonym))))
 
             pre.login = obj.login
             pre.parol = obj.parol
@@ -1272,7 +1272,9 @@ def generation_file(request, artist):
             modifyBorder(table)
             index = 1
             for l in list_audio:
-                if l[-1] == '-':
+                if l[-3] == '-':
+                    continue
+                if l[-2] == False:
                     continue
                 rows = table.add_row()
                 cn = 0
@@ -1285,6 +1287,10 @@ def generation_file(request, artist):
                     p = c.paragraphs[0]    
                     for run in p.runs:
                         run.font.size = Pt(10)
+                number = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+                obj = Audio.objects.get(pk=int(l[0]))
+                obj.number_of_file = number
+                obj.save()
                 index += 1
 
 
@@ -1292,6 +1298,10 @@ def generation_file(request, artist):
             modifyBorder(table)
             index = 1
             for l in list_video:
+                if l[-3] == '-':
+                    continue
+                if l[-2] == False:
+                    continue
                 rows = table.add_row()
                 cn = 0
                 for c in rows.cells:
@@ -1303,6 +1313,10 @@ def generation_file(request, artist):
                     p = c.paragraphs[0]    
                     for run in p.runs:
                         run.font.size = Pt(10)
+                number = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+                obj = Video.objects.get(pk=int(l[0]))
+                obj.number_of_file = number
+                obj.save()
                 index += 1
        
         else:
@@ -1335,23 +1349,40 @@ def generation_file(request, artist):
                         
 
         n += 1
+    index = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
     try:
         d = datetime.now()
         date_time = '__{}-{}-{}-{}-{}-{}'.format(str(d.year), str(d.month), str(d.day), str(d.hour), str(d.minute), str(d.second))
         artist = artist.replace(' ', '_')
-        doc.save(folder_path+artist+'/'+artist+date_time+'.docx')
+        doc.save(folder_path+artist+'/'+index+'.'+artist+date_time+'.docx')
     except:
         artist = artist.replace(' ', '_')
         os.system('mkdir {}'.format(folder_path+artist))
-        doc.save(folder_path+artist+'/'+artist+date_time+'.docx')
-    f = open(folder_path+artist+'/'+artist+date_time+'.docx', 'rb')
+        doc.save(folder_path+artist+'/'+index+'.'+artist+date_time+'.docx')
+    f = open(folder_path+artist+'/'+index+'.'+artist+date_time+'.docx', 'rb')
+    for i in Audio.objects.filter(pseudonym=artist):
+        i.is_generate=False
+        i.save()
+    for i in Video.objects.filter(pseudonym=artist):
+        i.is_generate=False
+        i.save()
     return FileResponse(f)
 
 @login_required
 def app_list(request, artist):
     try:
         artist = artist.replace(' ', '_')
-        all_apps = os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))
+        search_dir = os.path.join(BASE_DIR, 'files/app/{}'.format(artist))
+        all_files = os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))
+        all_files = [os.path.join(search_dir, f) for f in all_files]
+        all_files.sort(key=lambda x: os.path.getmtime(x))  #sort byd date
+        all_apps = []
+        # removing path name, rest only file name
+        for i in all_files:
+            *path, file = i.split('/')
+            all_apps.append(file)
+
+        # all_apps.sort(key=os.path.getctime)
         date_time = []
         for i in all_apps:
             folder, d_t_docx = i.split('__')
@@ -1365,8 +1396,29 @@ def app_list(request, artist):
 
 @login_required
 def open_app(request, app):
-    folder, date = app.split('__')
-    folder, date = app.split('__')
+
+    number_folder, date = app.split('__')
+    n, folder = number_folder.split('.')
     file_path = os.path.join(BASE_DIR, 'files/app/')
     f = open(file_path+folder+'/'+app, 'rb')
     return FileResponse(f)
+
+
+def change_generate_audio(request, pk):
+    obj = Audio.objects.get(pk=pk)
+    if obj.is_generate:
+        obj.is_generate = False
+    else:
+        obj.is_generate = True
+    obj.save()
+    return redirect(content, ps=obj.pseudonym)
+
+def change_generate_video(request, pk):
+    obj = Video.objects.get(pk=pk)
+    if obj.is_generate:
+        obj.is_generate = False
+    else:
+        obj.is_generate = True
+    obj.save()
+    return redirect(content, ps=obj.pseudonym)
+    

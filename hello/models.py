@@ -174,6 +174,9 @@ class Audio(models.Model):
     link = models.CharField(null=True, max_length=200, verbose_name='Ссылка на файл')
     pseudonym = models.CharField(null=True, blank=True, max_length=100)
     status = models.CharField(null=True, blank=True, max_length=5)
+    is_generate = models.BooleanField(blank=True, default=False)
+    number_of_file = models.CharField(null=True, blank=True, max_length=20)
+
 
 class Video(models.Model):
     composition = models.CharField(null=True, max_length=200, verbose_name='Произведение')
@@ -190,3 +193,5 @@ class Video(models.Model):
     link = models.CharField(null=True, max_length=200, verbose_name='Ссылка на файл')
     pseudonym = models.CharField(null=True, blank=True, max_length=100)
     status = models.CharField(null=True, blank=True, max_length=5)
+    is_generate = models.BooleanField(blank=True, default=False)
+    number_of_file = models.CharField(null=True, blank=True, max_length=20)

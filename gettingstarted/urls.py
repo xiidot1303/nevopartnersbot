@@ -75,6 +75,9 @@ urlpatterns = [
     path('add_app_file/<str:artist>', generation_file, name='add_app_file'),
     path('app_list/<str:artist>', app_list, name='app_list'),
     path('open_app_file/<str:app>', open_app, name='open_app'),
+    path('change_generation_file_audio/<int:pk>/', change_generate_audio, name='change_generation_file_audio'),
+    path('change_generation_file_video/<int:pk>/', change_generate_video, name='change_generation_file_video'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
