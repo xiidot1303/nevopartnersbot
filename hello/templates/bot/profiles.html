@@ -206,7 +206,7 @@
                             {% for p in profiles %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href="{% url 'editprofile' p.pk %}">{{ p.pseudonym }}</a></td>
+                                <td><a href="{% url 'editprofile' p.pk %}" target="_blank">{{ p.pseudonym }}</a></td>
                                 <td>{{ p.prefix }}</td>
                                 <td>{{ p.name }} </td>
                                 <td>{{ p.card_number }}</td>

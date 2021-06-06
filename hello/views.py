@@ -134,7 +134,7 @@ def Sendmessage(request, ps, issent):
         bbf = SendmessageForm()
         profiles = Profile.objects.all()
         try:
-                current_profil = Profile.objects.get(pseudonym=ps).pk
+            current_profil = Profile.objects.get(pseudonym=ps).pk
         except:
             current_profil = None
         if ps == 'all':
@@ -1230,7 +1230,7 @@ def content(request, ps):
 
 @login_required
 def generation_file(request, artist):
-    file_path = os.path.join(BASE_DIR, 'files/app/Приложение шаблон.docx')
+    file_path = os.path.join(BASE_DIR, 'files/app/main shablon.docx')
     folder_path = os.path.join(BASE_DIR, 'files/app/')
     
     list_audio = list(Audio.objects.filter(pseudonym=artist).values_list())
