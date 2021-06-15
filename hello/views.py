@@ -423,6 +423,8 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
             pre.passport_st_registration = obj.passport_st_registration
             pre.signed_contract = obj.signed_contract
             pre.inn = obj.inn
+            pre.type_document = obj.type_document
+
             pre.save()
         except:
             # create , when new profile is added. 

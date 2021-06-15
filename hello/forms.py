@@ -183,7 +183,8 @@ class ProfForm(ModelForm):
         model = Profile
         fields = {'login', 'parol', 'pseudonym','number', 'name', 'prefix', 
         'type_payment', 'valute_card', 'card_number', 'date_card', 'owner_card', 'published', 'date_birthday', 
-        'number_passport', 'date_passport', 'who_gave', 'place_registration', 'email', 'bank', 'reward', 'passport_main_st', 'passport_st_registration', 'signed_contract', 'inn', 'comment'}
+        'number_passport', 'date_passport', 'who_gave', 'place_registration', 'email', 'bank', 'reward', 'passport_main_st', 
+        'passport_st_registration', 'signed_contract', 'inn', 'comment', 'type_document'}
         labels = {
             'parol': 'Пароль'
         }
@@ -213,11 +214,29 @@ class ProfForm(ModelForm):
             'bank': forms.TextInput(attrs={'class': 'form-control',}),
             'reward': forms.TextInput(attrs={'class': 'form-control',}),
             'inn': forms.TextInput(attrs={'class': 'form-control',}),
+            'type_document': forms.Select(choices=[('Национальный паспорт', 'Национальный паспорт'), ('Заграничный паcпорт', 'Заграничный паcпорт'), ('ID карта', 'ID карта'), ('Водительское удостоверение', 'Водительское удостоверение'), ('Паспорт иностранного гражданина', 'Паспорт иностранного гражданина')], attrs={'class': 'form-control'}),
+
             
             
         }
+        labels = {
+            'type_document': 'Тип документа',
+            'number_passport': 'Серия и номер документа',
+            'date_passport': ' Дата выдачи документа',
+            'place_registration': 'Место выдачи документа',
+            'passport_main_st': 'Главная страница документа',
+            'passport_st_registration': 'Документ',
+            'card_number': 'Номер банковской карты',
+            'number': 'Номер телефона',
+
+
+
+
+
+
+        }
     field_order = ['login','type_payment', 'parol', 'valute_card', 'prefix', 'card_number', 'date_card', 'pseudonym', 'owner_card', 'name', 'bank', 'date_birthday', 'reward', 'number_passport', 
-    'published', 'date_passport', 'passport_main_st', 'passport_st_registration', 'who_gave', 'signed_contract', 'place_registration', 'number', 'email', 'inn', 'comment']
+    'published', 'date_passport', 'type_document', 'passport_main_st', 'passport_st_registration', 'who_gave', 'signed_contract', 'place_registration', 'number', 'email', 'inn', 'comment']
 class SecurityForm(ModelForm):
     class Meta:
         model = security
