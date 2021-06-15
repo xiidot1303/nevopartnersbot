@@ -880,7 +880,8 @@ def editadmin(request, pk):
 def sendfile(request, y, m, d, f):
 
     a = Account.objects.filter(document='{}/{}/{}/{}'.format(y, m, d, f))
-    return str(FileResponse(a[0].document).encode('utf-8'))
+    file = open(str(os.path.join(BASE_DIR+'/files', str(a[0].document)).encode('utf-8')), 'rb')
+    return FileResponse(file)
 
 def send_photo_ava(request, f):
     obj = Profile.objects.filter(photo='profile_photos/{}'.format(f))
