@@ -3,6 +3,7 @@ from .models import *
 from django import forms
 from django.contrib.admin.widgets import AdminDateWidget
 from datetime import date
+from django.contrib.auth.models import User
 
 class DateSelectorWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
@@ -238,11 +239,13 @@ class SendmessageForm(forms.Form):
 
 
 
+
+
 class Addadmin(forms.Form):
-    username = forms.CharField(max_length=100)
-    password = forms.CharField(max_length=30)
-    email = forms.CharField(max_length=100)
-    title = forms.CharField(widget=forms.Select(choices=[('Бухгалтерия', 'Бухгалтерия'), ('Менеджер', 'Менеджер'), ('Аналитик', 'Аналитик')]), label='Роль админа')
+    username = forms.CharField(max_length=100, required=True)
+    password = forms.CharField(max_length=30, required=False)
+    email = forms.CharField(max_length=100, required=True)
+    title = forms.CharField(required=True, widget=forms.Select(choices=[('Бухгалтерия', 'Бухгалтерия'), ('Менеджер', 'Менеджер'), ('Аналитик', 'Аналитик')]), label='Роль админа')
 
 
 

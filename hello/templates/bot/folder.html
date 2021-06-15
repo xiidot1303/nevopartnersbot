@@ -1,4 +1,5 @@
 {% load static %}
+{% load index %}
 <!DOCTYPE html>
 <!-- saved from url=(0036)https://example.elite-house.uz/users -->
 <html lang="ru" style="height: auto; min-height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -216,7 +217,7 @@
                     {% for t in table %}
                            <tr>
                                <td>{{ forloop.counter }} </td>
-                               <td>{{ t.0.pseudonym }}</td>
+                               <td><a href="{% url 'editprofile' pks|index:forloop.counter0 %}" target="_blank">{{ t.0.pseudonym }}</a> </td>
                                {% load index %}
                                <td>{{ prefix|index:forloop.counter0 }}</td>
                                <td>{{ card_number|index:forloop.counter0 }}</td>
@@ -393,7 +394,7 @@
       Административная панель
     </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+    <strong>Copyright © 2020 NEVO.</strong> <small>Все права защищены.</small>
   </footer>
     </div>
 

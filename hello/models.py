@@ -50,6 +50,7 @@ class Profile(models.Model):
     tg_phone_number = models.CharField(null=True, max_length=40, blank=True)
 
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарии')
+    type_document = models.CharField(blank=True, null=True, max_length=50)
 class month(models.Model):
     month = models.CharField(max_length=20, null=True)
     def __str__(self):
@@ -140,6 +141,7 @@ class prof_pre_value(models.Model):
     tg_phone_number = models.CharField(null=True, max_length=40, blank=True)
 
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарии')
+    type_document = models.CharField(blank=True, null=True, max_length=50)
 class sendmessage(models.Model):
     published = models.DateTimeField(db_index = True, null=True, auto_now_add=True)
     admin = models.CharField(max_length=50, null=True)

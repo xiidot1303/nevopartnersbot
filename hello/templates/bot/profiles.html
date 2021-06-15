@@ -206,7 +206,7 @@
                             {% for p in profiles %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href="{% url 'editprofile' p.pk %}" target="_blank">{{ p.pseudonym }}</a></td>
+                                <td><a href="{% url 'editprofile' p.pk %}">{{ p.pseudonym }}</a></td>
                                 <td>{{ p.prefix }}</td>
                                 <td>{{ p.name }} </td>
                                 <td>{{ p.card_number }}</td>
@@ -252,7 +252,7 @@
       Административная панель
     </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+    <strong>Copyright © 2020 NEVO.</strong> <small>Все права защищены.</small>
   </footer>
     </div>
 

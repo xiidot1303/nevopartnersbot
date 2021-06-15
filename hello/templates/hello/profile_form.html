@@ -143,14 +143,14 @@
     <!-- Main content -->
     <div class="row add-button" align='center'>
         <div class="col-xs-10">
-            <a href="{% url 'account' profile.pseudonym %}" class="btn btn-flat bg-orange"><i class="fas fa-file"></i><span> Отчеты</span></a>
+            <a href="{% url 'account' profile.prefix %}" class="btn btn-flat bg-orange"><i class="fas fa-file"></i><span> Отчеты</span></a>
             {% if perms.hello.add_account %}
-            <a href="{% url 'createacc' %}" class="btn btn-flat bg-orange"><i class="fas fa-plus"></i><span>Добавить отчет</span></a>
+            <a href="{% url 'createacc' %}" class="btn btn-flat bg-green"><i class="fas fa-plus"></i><span>Добавить отчет</span></a>
             {% else %}
             {% endif %}
-            <a href="{% url 'sendmessage' profile.pseudonym 'no' %}" class="btn btn-flat bg-orange"><i class="fas fa-envelope"></i><span>Отправить сообщения</span></a>
-            <a href = "{% url 'contract' profile.pseudonym %}" class="btn btn-flat bg-orange" target="_blank"><i class="fas fa-file"></i><span>Контракт</span></a>
-            <a href = "{% url 'content' profile.pseudonym %}" class="btn btn-flat bg-orange"><i class="fas fa-file"></i><span>Контент</span></a>
+            <a href="{% url 'sendmessage' profile.pseudonym 'no' %}" class="btn btn-flat bg-black"><i class="fas fa-envelope"></i><span>Отправить сообщения</span></a>
+            <a href = "{% url 'contract' profile.pseudonym %}" class="btn btn-flat bg-yellow" target="_blank"><i class="fas fa-file"></i><span>Контракт</span></a>
+            <a href = "{% url 'content' profile.pseudonym %}" class="btn btn-flat bg-blue"><i class="fas fa-file"></i><span>Контент</span></a>
         </div>
     </div>
     <section class="content container-fluid">
@@ -222,7 +222,7 @@
       Административная панель
     </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+    <strong>Copyright © 2020 NEVO.</strong> <small>Все права защищены.</small>
   </footer>
     </div>
     <script>

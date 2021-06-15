@@ -28,7 +28,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required, permission_required
 from django.views.decorators.http import require_GET
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db.models import Q
 from telegram import Update
 from .dispatcher import dp
 
@@ -150,9 +150,11 @@ def Sendmessage(request, ps, issent):
 def folder(request):
     profiles = Profile.objects.all()
     prefix = []
+    pks = []
     for p in profiles:
         if Account.objects.filter(pseudonym=p.pseudonym):
             prefix.append(p.prefix)
+            pks.append(p.pk)
     card_number = []
     for c in profiles:
         if Account.objects.filter(pseudonym=c.pseudonym):
@@ -180,7 +182,7 @@ def folder(request):
     years = list(range(maxx, minx))
     years.reverse()
     context = {'prefix': prefix, 'card_number': card_number, 'profiles': profiles, 'ps': 'Все', 'allprofiles': profiles, 'path': 'Все', 'table': table, 
-    'ids': ids, 'months': months, 'years': years, 'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids}
+    'ids': ids, 'months': months, 'years': years, 'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids, 'pks': pks}
     return render(request, 'bot/folder.html', context)
 @login_required
 def sortfolder(request, ps):
@@ -194,6 +196,7 @@ def sortfolder(request, ps):
     for p in profiles:
         if Account.objects.filter(pseudonym=p.pseudonym):
             prefix.append(p.prefix)
+            pks.append(p.pk)
     card_number = []
     for c in profiles:
         if Account.objects.filter(pseudonym=c.pseudonym):
@@ -219,7 +222,7 @@ def sortfolder(request, ps):
     first_months = months[(min_month-1):]
     first_months_ids = range(min_month, 13)
     context = {'prefix': prefix, 'card_number': card_number, 'profiles': profiles, 'ps': ps, 'allprofiles': allprofiles, 'path': ps, 'table': table, 'ids': ids, 'months': months, 'years': range(minx+1, maxx+1), 
-    'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids}
+    'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids, 'pks': pks}
     
     
     return render(request, 'bot/folder.html', context)
@@ -228,7 +231,8 @@ def sortfolder(request, ps):
 
 @login_required
 def accounts(request, pse):
-    accs = Account.objects.filter(pseudonym=pse).order_by('year', 'month_id')
+    ps = Profile.objects.get(prefix=pse).pseudonym
+    accs = Account.objects.filter(pseudonym=ps).order_by('year', 'month_id')
     context = {'accounts': accs}
     return render(request, 'bot/account.html', context)
 @login_required
@@ -710,7 +714,7 @@ def Profiles(request):
         os.remove(files[0])
 
 
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.all().order_by('prefix')
     bot_users = []
     for i in subscribersbot.objects.all():
         bot_users.append(i.login)
@@ -797,12 +801,83 @@ def addadmin(request):
         context = {'form': f}
         return render(request, 'bot/addadmin.html', context)
 
+
+
+@login_required
+def editadmin(request, pk):
+    if request.method == 'POST':
+        f = Addadmin(request.POST)
+        if f.is_valid():
+
+            username=f.cleaned_data['username']
+            password=f.cleaned_data['password']
+            email=f.cleaned_data['email']
+            title = f.cleaned_data['title']
+            if password != '':
+                obj = User.objects.get(pk=pk)
+                obj.delete()
+                obj = User.objects.create_user(username=f.cleaned_data['username'], password=f.cleaned_data['password'], email=f.cleaned_data['email'])
+            else:
+                obj = User.objects.get(pk=pk)
+                obj.username=f.cleaned_data['username']
+                obj.email=f.cleaned_data['email']
+            if title == 'Бухгалтерия':
+                exp = ['Can delete account', 'Can delete profile']
+            elif title == 'Менеджер':
+                exp = ['Can delete account', 'Can delete profile', 'Can add account', 'Can change account']
+            elif title == 'Аналитик':
+                exp = ['Can delete account', 'Can delete profile', 'Can add account', 'Can change account', 'Can change profile', 'Can add profile']
+            permissions = Permission.objects.all()
+            for p in permissions:
+                try:
+                    obj.user_permissions.remove(p)
+                except:
+                    do = 0
+            for p in permissions:
+                if not p.name in exp:
+                    obj.user_permissions.add(p)
+
+            obj.save()
+            return redirect('editpassword')
+        else:
+            obj = User.objects.get(pk=pk)
+            username=obj.username
+            password=obj.password
+            email=obj.email
+            if obj.user_permissions.filter(name='Can add account'):
+                title = 'Бухгалтерия'
+            
+            elif obj.user_permissions.filter(name='Can add profile'):
+                title = 'Менеджер'
+            else:
+                title = 'Аналитик'
+    
+            context = {'form': f, 'username': username, 'password': password, 'email': email, 'title': title}
+            return render(request, 'bot/editadmin.html', context)
+    else:
+        f = Addadmin
+    
+        obj = User.objects.get(pk=pk)
+        username=obj.username
+        password=obj.password
+        email=obj.email
+        if obj.user_permissions.filter(name='Can add account'):
+            title = 'Бухгалтерия'
+        
+        elif obj.user_permissions.filter(name='Can add profile'):
+            title = 'Менеджер'
+        else:
+            title = 'Аналитик'
+        context = {'form': f, 'username': username, 'password': password, 'email': email, 'title': title}
+        
+        return render(request, 'bot/editadmin.html', context)
+
             
 @login_required
 def sendfile(request, y, m, d, f):
 
     a = Account.objects.filter(document='{}/{}/{}/{}'.format(y, m, d, f))
-    return FileResponse(a[0].document)
+    return FileResponse(a[0].document.encode('utf-8'))
 
 @login_required
 def senddocument(request, f):
@@ -859,6 +934,13 @@ class HappybirthdayEditView(UpdateView, LoginRequiredMixin):  #
     form_class = HappybirthdayForm
     success_url = '/calendar'
 
+
+@login_required
+def stories_admin(request, username):
+    story = stories.objects.filter(admin=username)
+    users = User.objects.all()
+    context = {'story': story, 'users': users, 'username': username}
+    return render(request, 'bot/stories_admin.html', context)
 
 
 @login_required

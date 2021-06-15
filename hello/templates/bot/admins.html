@@ -143,7 +143,7 @@
         <div class="row add-button">
             <div class="col-xs-4">
                 <a href="{% url 'addadmin' %}" class="btn btn-flat bg-orange"><i class="fas fa-plus"></i>Добавить администратор</a>
-                
+                <a href="{% url 'stories_admin' user %}" class="btn btn-flat bg-orange"><i class="fas fa-history"></i>История действий</a>
             </div>
         </div>
 
@@ -176,8 +176,11 @@
                             {% for i in users %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
+                                {% if i.is_superuser %}
                                 <td>{{ i.username }}</td>
-                                
+                                {% else %}
+                                <td><a href="{% url 'editadmin' i.pk %}">{{ i.username }}</a></td>
+                                {% endif %}
                                 <td>
                                     {% if i.is_superuser %}
                                     Главный администратор
@@ -213,7 +216,7 @@
       Административная панель
     </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2020 VID.</strong> <small>Все права защищены.</small>
+    <strong>Copyright © 2020 NEVO.</strong> <small>Все права защищены.</small>
   </footer>
     </div>
 
