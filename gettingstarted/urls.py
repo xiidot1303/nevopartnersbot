@@ -45,6 +45,7 @@ urlpatterns = [
     path('addadmin/', addadmin, name='addadmin'),
     path('editadmin/<int:pk>/', editadmin, name='editadmin'),
     path('files/<str:y>/<str:m>/<str:d>/<str:f>/', sendfile),
+    path('files/profile_photos/<str:f>/', send_photo_ava),
     path('admins/', admins, name = 'admins'),
     path('stories_admin/<str:username>/', stories_admin, name='stories_admin'),
     path('deladmin/<int:pk>', deladmin, name='deladmin'),

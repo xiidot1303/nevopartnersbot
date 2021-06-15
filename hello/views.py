@@ -424,6 +424,7 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
             pre.signed_contract = obj.signed_contract
             pre.inn = obj.inn
             pre.type_document = obj.type_document
+            pre.photo = obj.photo
 
             pre.save()
         except:
@@ -879,7 +880,13 @@ def editadmin(request, pk):
 def sendfile(request, y, m, d, f):
 
     a = Account.objects.filter(document='{}/{}/{}/{}'.format(y, m, d, f))
-    return FileResponse(a[0].document.encode('utf-8'))
+    return str(FileResponse(a[0].document).encode('utf-8'))
+
+def send_photo_ava(request, f):
+    obj = Profile.objects.filter(photo='profile_photos/{}'.format(f))
+    file = open(str(os.path.join(BASE_DIR+'/files', str(obj[0].photo)).encode('utf-8')), 'rb')
+    return FileResponse(file)
+
 
 @login_required
 def senddocument(request, f):
