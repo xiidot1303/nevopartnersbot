@@ -80,7 +80,8 @@ WSGI_APPLICATION = "gettingstarted.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE" : "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+
     }
 }
 
@@ -101,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
-
+LOCALE_NAME = 'utf-8'
 TIME_ZONE = "Asia/Tashkent"
 
 USE_I18N = True
