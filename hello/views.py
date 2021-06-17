@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from telegram import ext
 from .models import *
