@@ -85,7 +85,8 @@ class StartBotView(View):
 
 
 @login_required
-def Sendmessage(request, ps, issent):
+def Sendmessage(request, pr, issent):
+
     if request.method == 'POST':
         bbf = SendmessageForm(request.POST)
         if bbf.is_valid():
@@ -102,31 +103,35 @@ def Sendmessage(request, ps, issent):
                         fewfwe = 0
 
             else:
-                pseu = bbf.cleaned_data['select']
-                msg = bbf.cleaned_data['message']
-                login = Profile.objects.get(pseudonym=pseu).login
-                user_id = subscribersbot.objects.get(login=login).user_id
-                my_token = TOKEN
+                try:
+                    prefix = bbf.cleaned_data['select']
+                    msg = bbf.cleaned_data['message']
+                    login = Profile.objects.get(prefix=prefix).login
+                    user_id = subscribersbot.objects.get(login=login).user_id
+                    my_token = TOKEN
 
 
-                bot = telegram.Bot(token=my_token)
-                
-                bot.sendMessage(chat_id=user_id, text='Сообщения от админстратора:\n'+msg)
+                    bot = telegram.Bot(token=my_token)
 
-                return redirect('sendmessage', permanent=True, ps=ps, issent='yes')
-            
-            
-            return redirect('profiles', permanent=False)
+                    bot.sendMessage(chat_id=user_id, text='Сообщения от админстратора:\n'+msg)
+
+                    return redirect('sendmessage', permanent=True, pr=pr, issent='yes')
+                except:
+                    do = 0
+            return redirect('sendmessage', permanent=True, pr=pr, issent='yes')
+            # return redirect('profiles', permanent=False)
             
         else:
             profiles = Profile.objects.all()
             try:
-                current_profil = Profile.objects.get(pseudonym=ps).pk
+                current_profil = Profile.objects.get(prefix=pr).pk
             except:
                 current_profil = None
-            if ps == 'all':
+            if pr == 'all':
+                ps = pr
                 story = sendmessage.objects.all()
             else:    
+                ps = Profile.objects.get(prefix=pr).pseudonym
                 story = sendmessage.objects.filter(user=ps).order_by('published')
             context = {'form': bbf, 'ps': ps, 'profiles': profiles, 'issent': issent, 'current': current_profil, 'stories': story}
             return render(request, 'bot/sendmessage.html', context)
@@ -135,12 +140,14 @@ def Sendmessage(request, ps, issent):
         bbf = SendmessageForm()
         profiles = Profile.objects.all()
         try:
-            current_profil = Profile.objects.get(pseudonym=ps).pk
+            current_profil = Profile.objects.get(prefix=pr).pk
         except:
             current_profil = None
-        if ps == 'all':
+        if pr == 'all':
+            ps = pr
             story = sendmessage.objects.all().order_by('published')
         else:    
+            ps = Profile.objects.get(prefix=pr).pseudonym
             story = sendmessage.objects.filter(user=ps).order_by('published')
         context = {'form': bbf, 'ps': ps, 'profiles': profiles, 'issent': issent, 'current': current_profil, 'stories': story}
         return render(request, 'bot/sendmessage.html', context)    
@@ -152,10 +159,12 @@ def folder(request):
     profiles = Profile.objects.all()
     prefix = []
     pks = []
+    prs = []
     for p in profiles:
         if Account.objects.filter(pseudonym=p.pseudonym):
             prefix.append(p.prefix)
             pks.append(p.pk)
+            prs.append(p.prefix)
     card_number = []
     for c in profiles:
         if Account.objects.filter(pseudonym=c.pseudonym):
@@ -183,7 +192,7 @@ def folder(request):
     years = list(range(maxx, minx))
     years.reverse()
     context = {'prefix': prefix, 'card_number': card_number, 'profiles': profiles, 'ps': 'Все', 'allprofiles': profiles, 'path': 'Все', 'table': table, 
-    'ids': ids, 'months': months, 'years': years, 'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids, 'pks': pks}
+    'ids': ids, 'months': months, 'years': years, 'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids, 'pks': pks, 'prs': prs}
     return render(request, 'bot/folder.html', context)
 @login_required
 def sortfolder(request, ps):
@@ -194,10 +203,13 @@ def sortfolder(request, ps):
     allprofiles = Profile.objects.all()
     # -----
     prefix = []
+    pks = []
+    prs = []
     for p in profiles:
         if Account.objects.filter(pseudonym=p.pseudonym):
             prefix.append(p.prefix)
             pks.append(p.pk)
+            prs.append([p.prefix])
     card_number = []
     for c in profiles:
         if Account.objects.filter(pseudonym=c.pseudonym):
@@ -223,7 +235,7 @@ def sortfolder(request, ps):
     first_months = months[(min_month-1):]
     first_months_ids = range(min_month, 13)
     context = {'prefix': prefix, 'card_number': card_number, 'profiles': profiles, 'ps': ps, 'allprofiles': allprofiles, 'path': ps, 'table': table, 'ids': ids, 'months': months, 'years': range(minx+1, maxx+1), 
-    'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids, 'pks': pks}
+    'first_year': first_year, 'first_months': first_months, 'first_months_ids': first_months_ids, 'pks': pks, 'prs': prs}
     
     
     return render(request, 'bot/folder.html', context)
@@ -231,15 +243,19 @@ def sortfolder(request, ps):
 
 
 @login_required
-def accounts(request, pse):
+def accounts(request, pse):   # pse is prefix
     ps = Profile.objects.get(prefix=pse).pseudonym
     accs = Account.objects.filter(pseudonym=ps).order_by('year', 'month_id')
-    context = {'accounts': accs}
+    context = {'accounts': accs, 'pr': pse}
     return render(request, 'bot/account.html', context)
 @login_required
 def allaccounts(request):
+    prs = []
     obj = Account.objects.all().order_by('-published', 'pseudonym')
-    context = {'accounts': obj, 'ps': 'Все', 'status':'Все', 'year':'Все', 'month':'1'}
+    for i in obj:
+        pr = Profile.objects.get(pseudonym=i.pseudonym).prefix
+        prs.append(pr)
+    context = {'accounts': obj, 'ps': 'Все', 'status':'Все', 'year':'Все', 'month':'1', 'prs': prs}
     context['years'] = ['Все', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027']
     context['months'] = ['Все', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
     context['statuses'] = ['Все', 'В работе', 'В ожидании', 'Оплачен', 'Отклонена', 'Перенесена', 'Нет']
@@ -249,6 +265,7 @@ def allaccounts(request):
 @login_required
 def sortallaccounts(request, ps, status, year, month):
     obj = Account.objects.all().order_by('-published', 'pseudonym')
+
     if ps != 'Все':
         obj = obj.filter(pseudonym=ps)
     if status != 'Все':
@@ -260,9 +277,12 @@ def sortallaccounts(request, ps, status, year, month):
     
     if month != '1':
         obj = obj.filter(month=int(month)-1)
-    
+    prs = []
+    for i in obj:
+        pr = Profile.objects.get(pseudonym=i.pseudonym).prefix
+        prs.append(pr)
 
-    context = {'accounts': obj, 'ps': ps, 'status': status, 'year': year, 'month': month}
+    context = {'accounts': obj, 'ps': ps, 'status': status, 'year': year, 'month': month, 'prs': prs}
     context['years'] = ['Все', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027']
     context['months'] = ['Все', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
     context['statuses'] = ['Все', 'В работе', 'В ожидании', 'Оплачен', 'Отклонена', 'Перенесена', 'Нет']
@@ -982,8 +1002,8 @@ def calendar(request):
 
 
 @login_required
-def Contract(request, ps):
-    obj = Profile.objects.get(pseudonym=ps)
+def Contract(request, pr):
+    obj = Profile.objects.get(prefix=pr)
     p = os.listdir(os.path.join(BASE_DIR, 'files/contract/main'))
     document = Document(os.path.join(BASE_DIR, 'files/contract/main/'+p[0]))
     for table in document.tables:
@@ -1056,7 +1076,7 @@ def Contract(request, ps):
                             p.text = p.text.replace('{фио}', '______')
                     except:
                         dedede = 0
-    pse = obj.pseudonym
+    pse = obj.prefix
     pse = pse.replace("'", "")
     pse = pse.replace('&', '')
     pse = pse.replace('(', '')
@@ -1100,7 +1120,8 @@ class ContractEditView(UpdateView):
 
 
 
-def audio_create(request, artist, extra):
+def audio_create(request, pr, extra):
+    artist = Profile.objects.get(prefix=pr).pseudonym
     FormSet = modelformset_factory(Audio, extra=extra, fields=('composition', 'artist', 'autor_music', 'autor_text', 'album', 'isrc', 'genre', 'copyright', 'related_rights', 'upc', 'release_date', 'territory', 'link'),
         labels = {
             'composition': '', 
@@ -1153,12 +1174,12 @@ def audio_create(request, artist, extra):
                         dwerdfwerf=21
                     form.save()
 
-        return redirect(content, ps=artist)
+        return redirect(content, pr=pr)
 
     else:
         formset = FormSet(queryset=Audio.objects.filter(pseudonym=None))
         
-        context = {'form': formset, 'add': extra+1, 'artist': artist}
+        context = {'form': formset, 'add': extra+1, 'artist': artist, 'pr': pr}
         return render(request, 'bot/createaudio.html', context)
 
 
@@ -1181,10 +1202,15 @@ class AuidoEditView(LoginRequiredMixin, UpdateView):
     def get_success_url(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         ps = context['object'].pseudonym
-        return '/content/{}'.format(ps)
+        pr = Profile.objects.get(pseudonym=ps).prefix
+        return '/partners/{}/content'.format(pr)
 
 class AudioDetailView(LoginRequiredMixin, DetailView):
     model = Audio
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['pr'] = Profile.objects.get(pseudonym=context['object'].pseudonym).prefix
+        return context
 @login_required
 def delete_audio(request, pk):
     audio = Audio.objects.get(pk=pk)
@@ -1194,12 +1220,14 @@ def delete_audio(request, pk):
     else:
         audio.status = '+'
     audio.save()
-    return redirect(content, ps=artist)
+    pr = Profile.objects.get(pseudonym=artist).prefix
+    return redirect(content, pr=pr)
 
 
 
 
-def video_create(request, artist, extra):
+def video_create(request, pr, extra):
+    artist = Profile.objects.get(prefix=pr).pseudonym
     FormSet = modelformset_factory(Video, extra=extra, fields=('composition', 'type', 'artist', 'isrc', 'producer', 'operator', 'autor_script', 'painter', 'copyright', 'release_date', 'territory', 'link'),
         labels = {
             'composition': '', 
@@ -1250,12 +1278,12 @@ def video_create(request, artist, extra):
                     except:
                         dedwe=91
                     form.save()
-        return redirect(content, ps=artist)
+        return redirect(content, pr=pr)
 
     else:
         formset = FormSet(queryset=Video.objects.filter(pseudonym=None))
         
-        context = {'form': formset, 'add': extra+1, 'artist': artist}
+        context = {'form': formset, 'add': extra+1, 'artist': artist, 'pr': pr}
         return render(request, 'bot/createvideo.html', context)
 
 
@@ -1280,11 +1308,16 @@ class VideoEditView(LoginRequiredMixin, UpdateView):
     def get_success_url(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         ps = context['object'].pseudonym
-        return '/content/{}'.format(ps)
+        pr = Profile.objects.get(pseudonym=ps).prefix
+        return '/partners/{}/content'.format(pr)
 
 
 class VideoDetailView(LoginRequiredMixin, DetailView):
     model = Video
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['pr'] = Profile.objects.get(pseudonym=context['object'].pseudonym).prefix
+        return context
 @login_required
 def delete_video(request, pk):
     video = Video.objects.get(pk=pk)
@@ -1294,9 +1327,11 @@ def delete_video(request, pk):
     else:
         video.status = '+'
     video.save()
-    return redirect(content, ps=artist)
+    pr = Profile.objects.get(pseudonym=artist).prefix
+    return redirect(content, pr=pr)
 @login_required
-def content(request, ps):
+def content(request, pr):
+    ps = Profile.objects.get(prefix=pr).pseudonym
     audios = Audio.objects.filter(pseudonym=ps)
     indexes = {}
 
@@ -1315,12 +1350,13 @@ def content(request, ps):
         index = obj_pks.index(v.pk) + 1
         indexes_video[v.pk] = index
 
-    context = {'audios': audios, 'videos': videos, 'ps': ps, 'indexes': indexes, 'indexes_video': indexes_video}
+    context = {'audios': audios, 'videos': videos, 'pr': pr, 'indexes': indexes, 'indexes_video': indexes_video}
     return render(request, 'bot/content.html', context)
 
 
 @login_required
-def generation_file(request, artist):
+def generation_file(request, pr):
+    artist = Profile.objects.get(prefix=pr).pseudonym
     file_path = os.path.join(BASE_DIR, 'files/app/main shablon.docx')
     folder_path = os.path.join(BASE_DIR, 'files/app/')
     
@@ -1460,7 +1496,8 @@ def generation_file(request, artist):
     return FileResponse(f)
 
 @login_required
-def app_list(request, artist):
+def app_list(request, pr):
+    artist = Profile.objects.get(prefix=pr).pseudonym
     try:
         artist = artist.replace(' ', '_')
         search_dir = os.path.join(BASE_DIR, 'files/app/{}'.format(artist))
@@ -1480,16 +1517,14 @@ def app_list(request, artist):
             d_t, docx = d_t_docx.split('.')
             year, month, day, hour, minute, second = d_t.split('-')
             date_time.append('{}.{}.{} {}:{}'.format(day, month, year, hour, minute))
-        context = {'all_apps': all_apps, 'date_time': date_time}
+        context = {'all_apps': all_apps, 'date_time': date_time, 'folder': artist}
     except:
         context = {'all_apps': [], 'date_time': []}
     return render(request, 'bot/app_list.html', context)
 
 @login_required
-def open_app(request, app):
-
-    number_folder, date = app.split('__')
-    n, folder = number_folder.split('.')
+def open_app(request, folder, app):
+    
     file_path = os.path.join(BASE_DIR, 'files/app/')
     f = open(file_path+folder+'/'+app, 'rb')
     return FileResponse(f)
@@ -1502,7 +1537,8 @@ def change_generate_audio(request, pk):
     else:
         obj.is_generate = True
     obj.save()
-    return redirect(content, ps=obj.pseudonym)
+    pr = Profile.objects.get(pseudonym=obj.pseudonym).prefix
+    return redirect(content, pr=pr)
 
 def change_generate_video(request, pk):
     obj = Video.objects.get(pk=pk)
@@ -1511,5 +1547,6 @@ def change_generate_video(request, pk):
     else:
         obj.is_generate = True
     obj.save()
-    return redirect(content, ps=obj.pseudonym)
+    pr = Profile.objects.get(pseudonym=obj.pseudonym).prefix
+    return redirect(content, pr=pr)
     

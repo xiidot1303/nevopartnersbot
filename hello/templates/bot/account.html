@@ -206,7 +206,7 @@
                                 
                                   {{ a.status.s }}
                                 </td>
-                                <td><a href="{% url 'edit' a.pk %}"  target="_blank" class="btn btn-danger btn-flat">Показать</a>
+                                <td><a href="{% url 'edit' pr a.pk %}"  target="_blank" class="btn btn-danger btn-flat">Показать</a>
                                     {% if perms.hello.delete_account %}
                                     <a href="{% url 'deleteacc' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-trash" aria-hidden="true"></i></a>
                                     {% else %}

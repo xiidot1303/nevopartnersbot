@@ -186,7 +186,7 @@
                                 <td>{{ date_time|index:forloop.counter0 }}</td>
                                 <td>{{ app }}</td>
                                 <td>
-                                    <a id = "a" href="{% url 'open_app' app %}" class="btn btn-danger btn-flat"><i class="fas fa-download" aria-hidden="true"></i></a>
+                                    <a id = "a" href="{% url 'open_app' folder app %}" class="btn btn-danger btn-flat"><i class="fas fa-download" aria-hidden="true"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}

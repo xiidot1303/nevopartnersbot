@@ -413,7 +413,7 @@ function autocomplete(inp, arr) {
         {% endif %}
         list = ["", "Все"];
         {% for p in profiles %}
-        list[{{ forloop.counter }}] = "{{ p.pseudonym }}";
+        list[{{ forloop.counter }}+1] = "{{ p.prefix }}";
        
         {% endfor %}
 

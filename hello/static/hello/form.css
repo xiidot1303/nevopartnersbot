@@ -506,6 +506,8 @@ li:hover ul#submenyu {
   width: 80px;
   height: 40px;
   color:white;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 #tbody {

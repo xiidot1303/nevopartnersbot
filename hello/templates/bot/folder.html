@@ -217,7 +217,7 @@
                     {% for t in table %}
                            <tr>
                                <td>{{ forloop.counter }} </td>
-                               <td><a href="{% url 'editprofile' pks|index:forloop.counter0 %}" target="_blank">{{ t.0.pseudonym }}</a> </td>
+                               <td><a href="{% url 'editprofile' prs|index:forloop.counter0 pks|index:forloop.counter0 %}" target="_blank">{{ t.0.pseudonym }}</a> </td>
                                {% load index %}
                                <td>{{ prefix|index:forloop.counter0 }}</td>
                                <td>{{ card_number|index:forloop.counter0 }}</td>
@@ -249,30 +249,30 @@
       
       
                                              {% if i.status.s == 'Оплачен' %}
-                                             <a href="{% url 'edit' i.pk %}" target="_blank">
+                                             <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                               <div class="status" style="background-color: chartreuse;">  {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
       
                                              {% else %} 
                                              {% if i.status.s == 'Отклонена' %}
-                                             <a href="{% url 'edit' i.pk %}" target="_blank">
+                                             <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                <div class="status" style="background-color: rgb(180, 4, 4);">  </div></a>
                                                {% else %}
       
       
                                                {% if i.status.s == 'Перенесена' %}
-                                             <a href="{% url 'edit' i.pk %}" target="_blank">
+                                             <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                               <div class="status" style="background-color: blue;">{% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
                                                {% else %}
       
       
                                                {% if i.status.s == 'В работе' %}
-                                               <a href="{% url 'edit' i.pk %}" target="_blank">
+                                               <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                 <div class="status" style="background-color: rgb(15, 223, 238);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
                                                  {% else %}
       
       
                                                {% if i.status.s == 'В ожидании' %}  
-                                                 <a href="{% url 'edit' i.pk %}" target="_blank">
+                                                 <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                   <div class="status" style="background-color: rgb(255, 174, 0);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
                                                  {% else %}
       
@@ -316,30 +316,30 @@
       
       
                                              {% if i.status.s == 'Оплачен' %}
-                                             <a href="{% url 'edit' i.pk %}" target="_blank">
+                                             <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                              <div class="status" style="background-color: chartreuse;">  {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
       
                                              {% else %} 
                                              {% if i.status.s == 'Отклонена' %}
-                                             <a href="{% url 'edit' i.pk %}" target="_blank">
+                                             <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                <div class="status" style="background-color: rgb(189, 0, 0);">  </div></a>
                                                {% else %}
       
       
                                                {% if i.status.s == 'Перенесена' %}
-                                             <a href="{% url 'edit' i.pk %}" target="_blank">
+                                             <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                <div class="status" style="background-color: blue;">{% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
                                                {% else %}
       
       
                                                {% if i.status.s == 'В работе' %}
-                                               <a href="{% url 'edit' i.pk %}" target="_blank">
+                                               <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                  <div class="status" style="background-color: rgb(15, 223, 238);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
                                                  {% else %}
       
       
                                                  {% if i.status.s == 'В ожидании' %}
-                                                 <a href="{% url 'edit' i.pk %}" target="_blank">
+                                                 <a href="{% url 'edit' prs|index:forloop.parentloop.counter0 i.pk %}" target="_blank">
                                                  <div class="status" style="background-color: rgb(255, 174, 0);"> {% if i.summa != None %} {{ i.summa }} {% else %}{% endif %} </div></a>
                                                  {% else %}
       

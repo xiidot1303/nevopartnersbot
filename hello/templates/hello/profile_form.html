@@ -148,9 +148,9 @@
             <a href="{% url 'createacc' %}" class="btn btn-flat bg-green"><i class="fas fa-plus"></i><span>Добавить отчет</span></a>
             {% else %}
             {% endif %}
-            <a href="{% url 'sendmessage' profile.pseudonym 'no' %}" class="btn btn-flat bg-black"><i class="fas fa-envelope"></i><span>Отправить сообщения</span></a>
-            <a href = "{% url 'contract' profile.pseudonym %}" class="btn btn-flat bg-yellow" target="_blank"><i class="fas fa-file"></i><span>Контракт</span></a>
-            <a href = "{% url 'content' profile.pseudonym %}" class="btn btn-flat bg-blue"><i class="fas fa-file"></i><span>Контент</span></a>
+            <a href="{% url 'sendmessage' profile.prefix 'no' %}" class="btn btn-flat bg-black"><i class="fas fa-envelope"></i><span>Отправить сообщения</span></a>
+            <a href = "{% url 'contract' profile.prefix %}" class="btn btn-flat bg-yellow" target="_blank"><i class="fas fa-file"></i><span>Контракт</span></a>
+            <a href = "{% url 'content' profile.prefix %}" class="btn btn-flat bg-blue"><i class="fas fa-file"></i><span>Контент</span></a>
         </div>
     </div>
     <section class="content container-fluid">
