@@ -968,7 +968,16 @@ class HappybirthdayEditView(UpdateView, LoginRequiredMixin):  #
 def stories_admin(request, username):
     story = stories.objects.filter(admin=username)
     users = User.objects.all()
-    context = {'story': story, 'users': users, 'username': username}
+    prs = []
+    for s in story:
+        if s.obj == 'Отчет':
+            acc = Account.objects.get(pk=s.obj_id)
+            pr = Profile.objects.get(pseudonym=acc.pseudonym).prefix
+            prs.append(pr)
+        else:
+            pr = Profile.objects.get(pk=s.obj_id).prefix
+            prs.append(pr)
+    context = {'story': story, 'users': users, 'username': username, 'prs': prs}
     return render(request, 'bot/stories_admin.html', context)
 
 
