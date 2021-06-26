@@ -175,6 +175,7 @@
                         <thead>
                             <tr>
                                 <th>№</th>
+                                <th>Админ</th>
                                 <th>Изменения</th>
                                 <th>Дата</th>
                                 <th>Объект</th>
@@ -187,16 +188,20 @@
                             {% for s in story %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-     
+                                <td>{{ s.admin }}</td>
       
                                 <td>{{ s.text }}</td>
                                 <td>{{ s.published|date:"d.m.Y" }}</td>
                                 <td>{{ s.obj }}</td>
                                 <td>
+                                  {% if prs|index:forloop.counter0 != 'no' %}
                                     {% if s.obj == 'Отчет' %}
                                   <a id = "a" href="{% url 'edit' prs|index:forloop.counter0 s.obj_id %}" class="btn btn-danger btn-flat bg-red"><i class="fas fa-eye" aria-hidden="true"></i></a>
                                     {% else %}
                                     <a id = "a" href="{% url 'editprofile' prs|index:forloop.counter0 s.obj_id %}" class="btn btn-danger btn-flat bg-red"><i class="fas fa-eye" aria-hidden="true"></i></a>
+                                  {% endif %}
+                                  {% else %}
+                                  
                                   {% endif %}
                                 </td>
                         

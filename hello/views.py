@@ -315,7 +315,9 @@ class AccDeleteView(LoginRequiredMixin, DeleteView, PermissionRequiredMixin):
     def get_success_url(self, *args, **kwargs):
         con = super().get_context_data(*args, **kwargs)
         obj = con['object']
-        url = '/account/{}/'.format(obj.pseudonym)
+        stories.objects.create(obj_id=obj.pk, admin=self.request.user, obj='Отчет', text='Удален\n{}    {} {}'.format(obj.pseudonym, obj.year, obj.month))
+        pr = Profile.objects.get(pseudonym=obj.pseudonym).prefix
+        url = '/partners/{}/account'.format(pr)
         return url
 
 
@@ -967,16 +969,20 @@ class HappybirthdayEditView(UpdateView, LoginRequiredMixin):  #
 @login_required
 def stories_admin(request, username):
     story = stories.objects.filter(admin=username)
+
     users = User.objects.all()
     prs = []
     for s in story:
-        if s.obj == 'Отчет':
-            acc = Account.objects.get(pk=s.obj_id)
-            pr = Profile.objects.get(pseudonym=acc.pseudonym).prefix
-            prs.append(pr)
-        else:
-            pr = Profile.objects.get(pk=s.obj_id).prefix
-            prs.append(pr)
+        try:
+            if s.obj == 'Отчет':
+                acc = Account.objects.get(pk=s.obj_id)
+                pr = Profile.objects.get(pseudonym=acc.pseudonym).prefix
+                prs.append(pr)
+            else:
+                pr = Profile.objects.get(pk=s.obj_id).prefix
+                prs.append(pr)
+        except:
+            prs.append('no')
     context = {'story': story, 'users': users, 'username': username, 'prs': prs}
     return render(request, 'bot/stories_admin.html', context)
 
