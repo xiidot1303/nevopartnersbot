@@ -9,9 +9,14 @@ import os
 basedir = os.path.abspath(os.path.dirname(''))
 load_dotenv(os.path.join(basedir, '.env'))
 TOKEN = os.environ.get('TOKEN')
+WHERE = os.environ.get('WHERE')
 
-bot_obj = Bot(TOKEN)
-dp = Dispatcher(bot_obj, None, workers=0, use_context=True)
+if WHERE == 'LOCAL':
+    updater = Updater(token=TOKEN, use_context=True)
+    dp = updater.dispatcher
+else:
+    bot_obj = Bot(TOKEN)
+    dp = Dispatcher(bot_obj, None, workers=0, use_context=True)
 
 dp.add_handler(CommandHandler('start', start))
 dp.add_handler(MessageHandler(Filters.contact, contact))

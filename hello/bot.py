@@ -236,7 +236,9 @@ def callback_query(update, context):
                 qpwomsqd = 0
             i.delete()
         if c.data == 'change_login':
-            c.edit_message_text('Введите новый логин:')
+            bot = context.bot
+            bot.delete_message(c.message.chat.id, c.message.message_id)
+            bot.send_message(c.message.chat.id, 'Введите новый логин:', reply_markup=ReplyKeyboardMarkup(keyboard=[['Назад']], resize_keyboard=True))
             ch = changing.objects.get(user_id=c.message.chat.id)
             ch.login = True
             ch.save()
@@ -361,6 +363,15 @@ def text(update, context):
         else:
             update.message.reply_text('Неправильно, введите пароль еще раз')
     elif ischanging.login:
+        if update.message.text == 'Назад':
+            ischanging.login = False
+            ischanging.save()
+            i_accounts = InlineKeyboardButton(text='Отчеты', callback_data='accounts')
+            i_setting = InlineKeyboardButton(text='Настройки', callback_data='setting')
+            mrk = InlineKeyboardMarkup([[i_accounts, i_setting]])
+            update.message.reply_text('Отменено', reply_markup = ReplyKeyboardRemove(remove_keyboard=True))
+            update.message.reply_text(start_text, reply_markup = mrk)
+            return
         subs = subscribersbot.objects.get(user_id = update.message.chat.id)
         prof = Profile.objects.get(login = subs.login)
         try:
@@ -376,13 +387,21 @@ def text(update, context):
             ischanging.save()
             update.message.reply_text('Логин, успешно изменен\n введите новый пароль:')
     elif ischanging.parol:
+        if update.message.text == 'Назад':
+            update.message.reply_text('Введите новый логин:')
+            
+            ischanging.login = True
+            ischanging.parol = False
+            ischanging.save()
+            return
+          
         subs = subscribersbot.objects.get(user_id = update.message.chat.id)
         prof = Profile.objects.get(login = subs.login)
         subs.parol = update.message.text
         prof.parol = update.message.text
         subs.save()
         prof.save()
-        update.message.reply_text('Пароль успешно изменен')
+        update.message.reply_text('Пароль успешно изменен', reply_markup = ReplyKeyboardRemove(remove_keyboard=True))
         i_accounts = InlineKeyboardButton(text='Отчеты', callback_data='accounts')
         i_setting = InlineKeyboardButton(text='Настройки', callback_data='setting')
         mrk = InlineKeyboardMarkup([[i_accounts, i_setting]])

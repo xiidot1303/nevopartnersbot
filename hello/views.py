@@ -31,7 +31,7 @@ from django.views.decorators.http import require_GET
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from telegram import Update
-from .dispatcher import dp
+from .dispatcher import dp, updater
 
 from docx import Document
 from docx.shared import Inches, Pt
@@ -43,7 +43,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(''))
 load_dotenv(os.path.join(basedir, '.env'))
 TOKEN = os.environ.get('TOKEN')
-
+WHERE = os.environ.get('WHERE')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))        
 
@@ -61,9 +61,11 @@ def robots_txt(request):
 @csrf_exempt
 def bot_webhook(request):
     #try:
-    #   
-    update = Update.de_json(json.loads(request.body.decode('utf-8')), dp.bot)
-    dp.process_update(update)
+    if WHERE == 'LOCAL':
+        updater.start_polling()
+    else:
+        update = Update.de_json(json.loads(request.body.decode('utf-8')), dp.bot)
+        dp.process_update(update)
     return HttpResponse('Bot started!')
     #else:
 
