@@ -16,6 +16,7 @@ if WHERE == 'LOCAL':
     dp = updater.dispatcher
 else:
     bot_obj = Bot(TOKEN)
+    updater = 0
     dp = Dispatcher(bot_obj, None, workers=0, use_context=True)
 
 dp.add_handler(CommandHandler('start', start))
