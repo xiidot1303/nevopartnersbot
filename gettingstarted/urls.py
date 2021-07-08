@@ -69,17 +69,20 @@ urlpatterns = [
     path('audio_detail/<int:pk>', AudioDetailView.as_view()),
     path('video_detail/<int:pk>', VideoDetailView.as_view()),
     
-    path('delete_audio/<int:pk>', delete_audio, name='delaudio'),
-    path('delete_video/<int:pk>', delete_video, name='delvideo'),
+    path('delete_audio/<str:redt>/<int:pk>', delete_audio, name='delaudio'),
+    path('delete_video/<str:redt>/<int:pk>', delete_video, name='delvideo'),
 
-    path('update_audio/<int:pk>', AuidoEditView.as_view(), name='edit_audio'),
-    path('update_video/<int:pk>', VideoEditView.as_view(), name='edit_video'),
+    path('update_audio/<str:redirect>/<int:pk>/', AuidoEditView.as_view(), name='edit_audio'),
+    path('update_video/<str:redirect>/<int:pk>/', VideoEditView.as_view(), name='edit_video'),
     
     path('add_app_file/<str:pr>', generation_file, name='add_app_file'),
     path('app_list/<str:pr>', app_list, name='app_list'),
     path('open_app_file/<str:folder>/<str:app>', open_app, name='open_app'),
     path('change_generation_file_audio/<int:pk>/', change_generate_audio, name='change_generation_file_audio'),
     path('change_generation_file_video/<int:pk>/', change_generate_video, name='change_generation_file_video'),
+
+    path('partners/all_audios', all_audio, name='all_audios'),
+    path('partners/all_videos', all_video, name='all_videos'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

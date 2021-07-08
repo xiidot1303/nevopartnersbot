@@ -1220,7 +1220,11 @@ class AuidoEditView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(*args, **kwargs)
         ps = context['object'].pseudonym
         pr = Profile.objects.get(pseudonym=ps).prefix
-        return '/partners/{}/content'.format(pr)
+
+        if context['view'].kwargs['redirect'] == 'all_audios':
+            return '/partners/all_audios'
+        else:
+            return '/partners/{}/content'.format(pr)
 
 class AudioDetailView(LoginRequiredMixin, DetailView):
     model = Audio
@@ -1229,7 +1233,7 @@ class AudioDetailView(LoginRequiredMixin, DetailView):
         context['pr'] = Profile.objects.get(pseudonym=context['object'].pseudonym).prefix
         return context
 @login_required
-def delete_audio(request, pk):
+def delete_audio(request, redt, pk):
     audio = Audio.objects.get(pk=pk)
     artist = audio.pseudonym
     if audio.status == '+':
@@ -1238,7 +1242,10 @@ def delete_audio(request, pk):
         audio.status = '+'
     audio.save()
     pr = Profile.objects.get(pseudonym=artist).prefix
-    return redirect(content, pr=pr)
+    if redt == 'content':
+        return redirect(content, pr=pr)
+    else:
+        return redirect(all_audio)
 
 
 
@@ -1326,7 +1333,10 @@ class VideoEditView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(*args, **kwargs)
         ps = context['object'].pseudonym
         pr = Profile.objects.get(pseudonym=ps).prefix
-        return '/partners/{}/content'.format(pr)
+        if context['view'].kwargs['redirect'] == 'all_videos':
+            return '/partners/all_videos'
+        else:
+            return '/partners/{}/content'.format(pr)
 
 
 class VideoDetailView(LoginRequiredMixin, DetailView):
@@ -1336,7 +1346,7 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
         context['pr'] = Profile.objects.get(pseudonym=context['object'].pseudonym).prefix
         return context
 @login_required
-def delete_video(request, pk):
+def delete_video(request, redt, pk):
     video = Video.objects.get(pk=pk)
     artist = video.pseudonym
     if video.status == '+':
@@ -1345,7 +1355,10 @@ def delete_video(request, pk):
         video.status = '+'
     video.save()
     pr = Profile.objects.get(pseudonym=artist).prefix
-    return redirect(content, pr=pr)
+    if redt == 'content':
+        return redirect(content, pr=pr)
+    else:
+        return redirect(all_video)
 @login_required
 def content(request, pr):
     ps = Profile.objects.get(prefix=pr).pseudonym
@@ -1567,3 +1580,13 @@ def change_generate_video(request, pk):
     pr = Profile.objects.get(pseudonym=obj.pseudonym).prefix
     return redirect(content, pr=pr)
     
+
+def all_audio(request):
+    all = Audio.objects.all()
+    context = {'audios': all}
+    return render(request, 'bot/all_audios.html', context)
+
+def all_video(request):
+    all = Video.objects.all()
+    context = {'videos': all}
+    return render(request, 'bot/all_videos.html', context)

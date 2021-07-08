@@ -94,6 +94,8 @@
                       <ul class="submenu">
                         
                         <li><a href="{% url 'calendar' %}"><i class="fa fa-calendar" style="color: seashell;"></i>Календарь</a></li>
+                        <li><a href="{% url 'all_audios' %}"><i class="fa fa-music" style="color: seashell;"></i>Аудио</a></li>
+                        <li><a href="{% url 'all_videos' %}"><i class="fa fa-video" style="color: seashell;"></i>Видео</a></li>
                       </ul>
                       
                     </li>
@@ -240,8 +242,8 @@
                                      </audio>
 
                                     <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "nyan-btn{{ a.pk }}" class="nyan-btn btn btn-danger btn-flat"><i class="fas fa-play" aria-hidden="true"></i></a>
-                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'edit_audio' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-edit" aria-hidden="true"></i></a>
-                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'delaudio' a.pk %}" onclick="return confirm(&#39;Вы уверены?&#39;)" class="btn btn-danger btn-flat">
+                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'edit_audio' 'content' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-edit" aria-hidden="true"></i></a>
+                                    <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'delaudio' 'content' a.pk %}" onclick="return confirm(&#39;Вы уверены?&#39;)" class="btn btn-danger btn-flat">
                                         {% if a.status == '-' %}
                                         <i class="fas fa-sync-alt">
                                         {% else %}
@@ -330,8 +332,8 @@
                             
                             <td>
                                 <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{{ a.link }}" target="_blank" class="btn btn-danger btn-flat"><i class="fas fa-play" aria-hidden="true"></i></a>
-                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'edit_video' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-edit" aria-hidden="true"></i></a>
-                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'delvideo' a.pk %}" onclick="return confirm(&#39;Вы уверены?&#39;)" class="btn btn-danger btn-flat">
+                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'edit_video' 'content' a.pk %}" class="btn btn-danger btn-flat"><i class="fas fa-edit" aria-hidden="true"></i></a>
+                                <a style="font-size: 10px; padding: 3px 3px 3px 3px;" id = "a" href="{% url 'delvideo' 'content' a.pk %}" onclick="return confirm(&#39;Вы уверены?&#39;)" class="btn btn-danger btn-flat">
                                     {% if a.status == '-' %}
                                     <i class="fas fa-sync-alt">
                                     {% else %}
