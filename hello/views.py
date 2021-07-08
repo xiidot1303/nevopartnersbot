@@ -1438,6 +1438,8 @@ def generation_file(request, pr):
                 for c in rows.cells:
                     if cn == 0:
                         c.text = str(index)
+                    elif cn == 11:
+                        c.text = '{}.{}.{}'.format(str(datetime.now().day), str(datetime.now().month), str(datetime.now().year))
                     else:
                         c.text = l[cn]
                     cn += 1
@@ -1464,6 +1466,8 @@ def generation_file(request, pr):
                 for c in rows.cells:
                     if cn == 0:
                         c.text = str(index)
+                    elif cn == 10:
+                        c.text = '{}.{}.{}'.format(str(datetime.now().day), str(datetime.now().month), str(datetime.now().year))
                     else:
                         c.text = l[cn]
                     cn += 1
