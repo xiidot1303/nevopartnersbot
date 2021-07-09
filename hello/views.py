@@ -1138,6 +1138,8 @@ class ContractEditView(UpdateView):
 
 
 def audio_create(request, pr, extra):
+    for a in Audio.objects.filter(pseudonym=None):
+        a.delete()
     artist = Profile.objects.get(prefix=pr).pseudonym
     FormSet = modelformset_factory(Audio, extra=extra, fields=('composition', 'artist', 'autor_music', 'autor_text', 'album', 'isrc', 'genre', 'copyright', 'related_rights', 'upc', 'release_date', 'territory', 'link'),
         labels = {
@@ -1172,6 +1174,7 @@ def audio_create(request, pr, extra):
         }
 
     )
+    
     if request.method == 'POST':
         formset = FormSet(request.POST, queryset=Audio.objects.filter(pseudonym=artist))
         if formset.is_valid():
@@ -1251,6 +1254,8 @@ def delete_audio(request, redt, pk):
 
 
 def video_create(request, pr, extra):
+    for v in Video.objects.filter(pseudonym=None):
+        v.delete()
     artist = Profile.objects.get(prefix=pr).pseudonym
     FormSet = modelformset_factory(Video, extra=extra, fields=('composition', 'type', 'artist', 'isrc', 'producer', 'operator', 'autor_script', 'painter', 'copyright', 'release_date', 'territory', 'link'),
         labels = {
