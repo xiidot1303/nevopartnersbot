@@ -1563,7 +1563,7 @@ def generation_file(request, pr):
                         p.text = p.text.replace('{date}', '{}.{}.{}'.format(str(datetime.now().day), str(datetime.now().month), str(datetime.now().year)))
                         months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
                         p.text = p.text.replace('{year}', str(datetime.now().year))
-                        p.text = p.text.replace('{month}', str(datetime.now().month))
+                        p.text = p.text.replace('{month}', months[int(datetime.now().month) - 1])
                         p.text = p.text.replace('{day}', str(datetime.now().day))
                         
 
