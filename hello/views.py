@@ -1168,7 +1168,7 @@ def audio_create(request, pr, extra):
             'copyright': forms.TextInput(attrs={'class': 'copyright'}),
             'related_rights': forms.TextInput(attrs={'class': 'related_rights'}),
             'upc': forms.TextInput(attrs={'class': 'upc'}),
-            'release_date': forms.TextInput(attrs={'class': 'release_date'}),
+            'release_date': forms.TextInput(attrs={'class': 'release_date', 'required': True}),
             'territory': forms.TextInput(attrs={'class': 'territory'}),
             'link': forms.TextInput(attrs={'class': 'link'}),
         }
@@ -1177,22 +1177,22 @@ def audio_create(request, pr, extra):
     
     if request.method == 'POST':
         formset = FormSet(request.POST, queryset=Audio.objects.filter(pseudonym=artist))
-        if formset.is_valid():
-            formset.save()
-            for form in formset:
-                if form.instance.pseudonym == None and form.instance.artist != None:
-                    form.instance.pseudonym = artist
-                    form.instance.status = '+'
-                    current_pk = form.instance.pk
-                    try:
-                        video_pk = max(list(Video.objects.all().values_list('pk')))[0]
-                        if current_pk > video_pk:
-                            do_nothing=True
-                        else:
-                            form.instance.pk = video_pk + 1
-                    except:
-                        dwerdfwerf=21
-                    form.save()
+        
+        formset.save()
+        for form in formset:
+            if form.instance.pseudonym == None and form.instance.artist != None:
+                form.instance.pseudonym = artist
+                form.instance.status = '+'
+                current_pk = form.instance.pk
+                try:
+                    video_pk = max(list(Video.objects.all().values_list('pk')))[0]
+                    if current_pk > video_pk:
+                        do_nothing=True
+                    else:
+                        form.instance.pk = video_pk + 1
+                except:
+                    dwerdfwerf=21
+                form.save()
 
         return redirect(content, pr=pr)
 
@@ -1293,31 +1293,25 @@ def video_create(request, pr, extra):
         
 
         formset.save()
-        if formset.__dict__['data']['form-0-release_date'] != '':
 
-            for form in formset:
-                if form.instance.pseudonym == None:
 
-                    # if form.instance.composition == None:
-                    #     form.instance.composition = ' '
-                    # elif form.instance.composition == None:
-                    #     form.instance.composition = ' '
+        for form in formset:
+            if form.instance.pseudonym == None:
+                
+                form.instance.pseudonym = artist
+                
+                form.instance.status = '+'
+                current_pk = form.instance.pk
+                try:
+                    audio_pk = max(list(Audio.objects.all().values_list('pk')))[0]
+                    if current_pk > audio_pk:
+                        do_nothing=True
+                    else:
+                        form.instance.pk = audio_pk + 1
+                except:
+                    dedwe=91
+                form.save()
 
-                    form.instance.pseudonym = artist
-                    
-                    form.instance.status = '+'
-                    current_pk = form.instance.pk
-                    try:
-                        audio_pk = max(list(Audio.objects.all().values_list('pk')))[0]
-
-                        if current_pk > audio_pk:
-                            do_nothing=True
-                        else:
-                            form.instance.pk = audio_pk + 1
-                    except:
-                        dedwe=91
-                    form.save()
-            # formset.save()
         return redirect(content, pr=pr)
 
     else:
@@ -1503,7 +1497,11 @@ def generation_file(request, pr):
                         c.text = str(index)
 
                     else:
-                        c.text = l[cn]
+                        if l[cn] != None:
+                            c.text = l[cn]
+                        else:
+                            c.text = ' '
+
                     cn += 1
                     p = c.paragraphs[0]    
                     for run in p.runs:
@@ -1538,7 +1536,10 @@ def generation_file(request, pr):
                         c.text = str(index)
 
                     else:
-                        c.text = l[cn]
+                        if l[cn] != None:
+                            c.text = l[cn]
+                        else:
+                            c.text = ' '
                     cn += 1
                     p = c.paragraphs[0]    
                     for run in p.runs:
