@@ -1282,19 +1282,29 @@ def video_create(request, pr, extra):
             'autor_script': forms.TextInput(attrs={'class': 'autor_script'}), 
             'painter': forms.TextInput(attrs={'class': 'painter'}), 
             'copyright': forms.TextInput(attrs={'class': 'copyright'}), 
-            'release_date': forms.TextInput(attrs={'class': 'release_date'}),
+            'release_date': forms.TextInput(attrs={'class': 'release_date', 'required': True}),
             'territory': forms.TextInput(attrs={'class': 'territory'}), 
             'link': forms.TextInput(attrs={'class': 'link'}),
-        }
+        },
 
     )
     if request.method == 'POST':
         formset = FormSet(request.POST, queryset=Video.objects.filter(pseudonym=artist))
-        if formset.is_valid():
-            formset.save()
+        
+
+        formset.save()
+        if formset.__dict__['data']['form-0-release_date'] != '':
+
             for form in formset:
-                if form.instance.pseudonym == None and form.instance.artist != None:
+                if form.instance.pseudonym == None:
+
+                    # if form.instance.composition == None:
+                    #     form.instance.composition = ' '
+                    # elif form.instance.composition == None:
+                    #     form.instance.composition = ' '
+
                     form.instance.pseudonym = artist
+                    
                     form.instance.status = '+'
                     current_pk = form.instance.pk
                     try:
@@ -1307,6 +1317,7 @@ def video_create(request, pr, extra):
                     except:
                         dedwe=91
                     form.save()
+            # formset.save()
         return redirect(content, pr=pr)
 
     else:
