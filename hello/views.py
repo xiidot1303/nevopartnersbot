@@ -1547,7 +1547,10 @@ def generation_file(request, pr):
                     p = c.paragraphs[0]    
                     for run in p.runs:
                         run.font.size = Pt(10)
-                number = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+                try:
+                    number = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+                except:
+                    number = '1'
                 obj = Video.objects.get(pk=int(l[0]))
                 obj.number_of_file = number
                 obj.save()
