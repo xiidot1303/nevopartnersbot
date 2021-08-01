@@ -432,10 +432,10 @@
 	background: gray;
   list-style: none;
   
-    width: 100%;
-    align-content: center;
-    ruby-align: center;
-    align: center;
+  width: 100%;
+  align-content: center;
+  ruby-align: center;
+  align: center;
 }
 .intable li {
 	float: left;
@@ -471,7 +471,7 @@
 	visibility: hidden;
 	z-index: 1;
 }
-li:hover ul #submenyu {
+li:hover ul#submenyu {
 	opacity: 1;
 	top: 40px;	/* adjust this as per top nav padding top & bottom comes */
 	visibility: visible;

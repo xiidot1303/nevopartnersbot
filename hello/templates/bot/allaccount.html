@@ -167,7 +167,7 @@
                     <nav class="intable">
                       <ul>
               
-                        <li><a href="#">Год</a>
+                        <li><a href="#" class="intable__a">Год</a>
                           <ul id="submenyu">
                             {% for i in years %}
                             <li><a href="{% url 'sortacc' ps status i month %}">{{ i }}</a></li>
@@ -184,7 +184,7 @@
                     <nav class="intable">
                       <ul>
               
-                        <li><a href="#">Месяц</a>
+                        <li><a href="#" class="intable__a">Месяц</a>
                           <ul id="submenyu">
                             {% for i in months %}
                             <li><a href="{% url 'sortacc' ps status year forloop.counter %}">{{ i }}</a></li>
@@ -202,7 +202,7 @@
                     <nav class="intable">
                       <ul>
               
-                        <li><a href="#">Статус</a>
+                        <li><a href="#" class="intable__a">Статус</a>
                           <ul id="submenyu">
                             {% for i in statuses %}
                             <li><a href="{% url 'sortacc' ps i year month %}">{{ i }}</a></li>
