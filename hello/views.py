@@ -1506,7 +1506,10 @@ def generation_file(request, pr):
                     p = c.paragraphs[0]    
                     for run in p.runs:
                         run.font.size = Pt(10)
-                number = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+                try:
+                    number = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+                except:
+                    number = '1'
                 obj = Audio.objects.get(pk=int(l[0]))
                 obj.number_of_file = number
                 obj.save()
@@ -1580,7 +1583,10 @@ def generation_file(request, pr):
                         
 
         n += 1
-    index = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+    try:
+        index = str(len(os.listdir(os.path.join(BASE_DIR, 'files/app/{}'.format(artist)))) + 1)
+    except:
+        index = '1'
     try:
         d = datetime.now()
         date_time = '__{}-{}-{}-{}-{}-{}'.format(str(d.year), str(d.month), str(d.day), str(d.hour), str(d.minute), str(d.second))
