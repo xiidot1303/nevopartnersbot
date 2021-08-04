@@ -186,7 +186,7 @@ def folder(request):
     first_months = months[-(min_month):]
     first_months_ids = list(range(1, min_month+1))
     first_months_ids.reverse()
-    print(first_months_ids)
+    
 
     ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     ids = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
