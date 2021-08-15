@@ -340,12 +340,15 @@ class ProfDetailView(LoginRequiredMixin, DetailView):
                 for i in subscribersbot.objects.all():
                     if not Profile.objects.filter(login=i.login):
                         if i.parol:
-                            token = TOKEN
-                            user_id = i.user_id
-                            bot = telegram.Bot(token=token)
+                            try:
+                                token = TOKEN
+                                user_id = i.user_id
+                                bot = telegram.Bot(token=token)
 
-                            message = 'Ваши данные для входа сменены. Для получение новых данных обратитесь Вашему менеджеру по работе с партнерами или по почты support@nevo.uz\n\nнажмите /start, чтобы перезапустить бота'
-                            bot.sendMessage(chat_id=user_id, text=message)
+                                message = 'Ваши данные для входа сменены. Для получение новых данных обратитесь Вашему менеджеру по работе с партнерами или по почты support@nevo.uz\n\nнажмите /start, чтобы перезапустить бота'
+                                bot.sendMessage(chat_id=user_id, text=message)
+                            except:
+                                do_nothing = True
                             changing.objects.get(user_id=i.user_id).delete()
                             typing.objects.get(user_id=i.user_id).delete()
 
